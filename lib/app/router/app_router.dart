@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_material_enterprise_starter/features/setting/presentation/setting_page.dart';
+import 'package:flutter_material_enterprise_starter/features/setting/presentation/pages/setting_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 

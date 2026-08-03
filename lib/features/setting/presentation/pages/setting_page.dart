@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_material_enterprise_starter/core/design_system/theme/theme_provider.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/theme/provider/theme_provider.dart';
+import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/color_picker_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class SettingsPage extends ConsumerWidget {
@@ -16,11 +17,12 @@ class SettingsPage extends ConsumerWidget {
       body: ListView(
         children: [
           SwitchListTile(
-            title: Text('حالت شب'),
-            value: themeMode == ThemeMode.dark,
+            title: Text('حالت روشن'),
+            value: themeMode.themeMode == ThemeMode.light,
             onChanged: (_) => themeNotifier.toggleTheme(),
           ),
           const Divider(),
+          ColorPickerWidget(),
         ],
       ),
     );
