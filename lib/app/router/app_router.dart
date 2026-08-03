@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_enterprise_starter/features/setting/presentation/setting_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,9 +17,7 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: AppRoutes.initial,
         name: AppRoutes.initial,
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Enterprise Starter Initialized')),
-        ),
+        builder: (context, state) => const Scaffold(body: SettingsPage()),
       ),
     ],
     errorBuilder: (context, state) =>
