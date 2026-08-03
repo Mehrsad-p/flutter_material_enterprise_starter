@@ -7,10 +7,8 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // ۱. دریافت وضعیت تم و زبان
     final themeMode = ref.watch(appThemeNotifierProvider);
 
-    // ۲. دریافت ناتیفایرها برای اعمال تغییرات
     final themeNotifier = ref.read(appThemeNotifierProvider.notifier);
 
     return Scaffold(
