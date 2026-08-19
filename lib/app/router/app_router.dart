@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_enterprise_starter/features/launcher/presentation/views/launcher_view.dart';
 import 'package:flutter_material_enterprise_starter/features/setting/presentation/pages/setting_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +18,7 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: AppRoutes.initial,
         name: AppRoutes.initial,
-        builder: (context, state) => const Scaffold(body: SettingsPage()),
+        builder: (context, state) => const Scaffold(body: LauncherView()),
       ),
     ],
     errorBuilder: (context, state) =>
