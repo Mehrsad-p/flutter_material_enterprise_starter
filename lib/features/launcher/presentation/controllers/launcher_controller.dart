@@ -1,0 +1,59 @@
+import 'package:flutter_material_enterprise_starter/core/errors/result.dart';
+import 'package:flutter_material_enterprise_starter/features/launcher/data/datasources/launcher_local_datasource.dart';
+import 'package:flutter_material_enterprise_starter/features/launcher/data/repositories/launcher_repository_impl.dart';
+import 'package:flutter_material_enterprise_starter/features/launcher/domain/repositories/launcher_repository.dart';
+import 'package:flutter_material_enterprise_starter/features/launcher/domain/usecases/initialize_app_usecase.dart';
+import 'package:flutter_material_enterprise_starter/features/launcher/presentation/states/launcher_state.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'launcher_controller.g.dart';
+
+@riverpod
+LauncherLocalDataSource launcherLocalDataSource(LauncherLocalDataSourceRef ref) {
+  return const LauncherLocalDataSourceImpl();
+}
+
+@riverpod
+LauncherRepository launcherRepository(LauncherRepositoryRef ref) {
+  final dataSource = ref.watch(launcherLocalDataSourceProvider);
+  return LauncherRepositoryImpl(dataSource);
+}
+
+@riverpod
+InitializeAppUseCase initializeAppUseCase(InitializeAppUseCaseRef ref) {
+  final repository = ref.watch(launcherRepositoryProvider);
+  return InitializeAppUseCase(repository);
+}
+
+@riverpod
+class LauncherController extends _$LauncherController {
+  @override
+  LauncherState build() {
+    Future.microtask(() => initApp());
+    return const LauncherState.initial();
+  }
+
+  Future<void> initApp() async {
+    state = const LauncherState.loading();
+
+    final useCase = ref.read(initializeAppUseCaseProvider);
+    final result = await useCase.execute();
+
+    switch (result) {
+      case Success(data: final config):
+        if (config.isMaintenanceMode) {
+          state = const LauncherState.error('برنامه در دست تعمیر است');
+          return;
+        }
+        final sessionResult = await ref.read(launcherRepositoryProvider).checkUserSession();
+        switch (sessionResult) {
+          case Success(data: final hasSession):
+            state = LauncherState.success(hasActiveSession: hasSession);
+          case FailureResult(failure: final failure):
+            state = LauncherState.error(failure.message);
+        }
+      case FailureResult(failure: final failure):
+        state = LauncherState.error(failure.message);
+    }
+  }
+}
