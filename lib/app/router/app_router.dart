@@ -26,6 +26,11 @@ GoRouter appRouter(Ref ref) {
         name: AppRoutes.home,
         builder: (context, state) => const Scaffold(body: HomeView()),
       ),
+      GoRoute(
+        path: AppRoutes.settings,
+        name: AppRoutes.settings,
+        builder: (context, state) => const SettingsPage(),
+      ),
     ],
     errorBuilder: (context, state) =>
         Scaffold(body: Center(child: Text('Error: ${state.error}'))),

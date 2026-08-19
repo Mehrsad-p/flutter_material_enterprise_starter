@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_spacing.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_radius.dart';
 
 class HomeCardWidget extends StatelessWidget {
   final String title;
@@ -22,14 +24,14 @@ class HomeCardWidget extends StatelessWidget {
       elevation: 0,
       color: color.withValues(alpha: 0.1),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: AppRadius.borderRadiusL,
         side: BorderSide(
           color: color.withValues(alpha: 0.2),
           width: 1.5,
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: AppSpacing.paddingAllL,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -46,7 +48,7 @@ class HomeCardWidget extends StatelessWidget {
                 Icon(icon, color: color, size: 28),
               ],
             ),
-            const SizedBox(height: 16),
+            AppSpacing.verticalSpaceL,
             Text(
               value,
               style: theme.textTheme.headlineLarge?.copyWith(

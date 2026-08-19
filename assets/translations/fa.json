@@ -20,5 +20,12 @@
   "retry": "تلاش مجدد",
   "loading": "در حال آماده‌سازی و بارگذاری...",
   "settings": "تنظیمات",
-  "theme_mode": "حالت تم"
+  "theme_mode": "حالت تم",
+  "dashboard_title": "میز کار مدیریت",
+  "dashboard_desc": "وضعیت کنونی سامانه و آمار کلی در این بخش قابل مشاهده است.",
+  "dashboard_stats_title": "آمار و کارکردها",
+  "active_users": "کاربران فعال سامانه",
+  "pending_tasks": "کارهای در انتظار بررسی",
+  "people_count": "{} نفر",
+  "tasks_count": "{} مورد"
 }

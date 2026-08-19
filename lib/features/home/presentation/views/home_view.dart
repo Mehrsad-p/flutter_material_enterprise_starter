@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_spacing.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_radius.dart';
+import 'package:flutter_material_enterprise_starter/generated/locale_keys.g.dart';
 import 'package:flutter_material_enterprise_starter/features/home/presentation/controllers/home_controller.dart';
 import 'package:flutter_material_enterprise_starter/features/home/presentation/states/home_state.dart';
 import 'package:flutter_material_enterprise_starter/features/home/presentation/widgets/home_card_widget.dart';
@@ -14,7 +18,7 @@ class HomeView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('میز کار مدیریت'),
+        title: Text(LocaleKeys.dashboard_title.tr()),
         centerTitle: true,
         actions: [
           IconButton(
@@ -22,6 +26,51 @@ class HomeView extends ConsumerWidget {
             onPressed: () => ref.read(homeControllerProvider.notifier).loadDashboard(),
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: SafeArea(
+          child: Column(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primaryContainer,
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.admin_panel_settings_rounded,
+                        size: 48,
+                        color: theme.colorScheme.onPrimaryContainer,
+                      ),
+                      AppSpacing.verticalSpaceS,
+                      Text(
+                        LocaleKeys.app_name.tr(),
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.dashboard_rounded),
+                title: Text(LocaleKeys.dashboard_title.tr()),
+                onTap: () => Navigator.pop(context),
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings_rounded),
+                title: Text(LocaleKeys.settings.tr()),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
       ),
       body: SafeArea(
         child: state.when(
@@ -40,30 +89,30 @@ class HomeView extends ConsumerWidget {
                   color: theme.colorScheme.error,
                   size: 48,
                 ),
-                const SizedBox(height: 16),
+                AppSpacing.verticalSpaceL,
                 Text(
                   message,
                   style: theme.textTheme.titleMedium?.copyWith(
                     color: theme.colorScheme.error,
                   ),
                 ),
-                const SizedBox(height: 16),
+                AppSpacing.verticalSpaceL,
                 FilledButton.icon(
                   onPressed: () => ref.read(homeControllerProvider.notifier).loadDashboard(),
                   icon: const Icon(Icons.refresh_rounded),
-                  label: const Text('تلاش مجدد'),
+                  label: Text(LocaleKeys.retry.tr()),
                 ),
               ],
             ),
           ),
           success: (summary) => SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
+            padding: AppSpacing.paddingAllXl,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(24.0),
+                  padding: AppSpacing.paddingAllXl,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -73,7 +122,7 @@ class HomeView extends ConsumerWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: AppRadius.borderRadiusXl,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,9 +134,9 @@ class HomeView extends ConsumerWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      AppSpacing.verticalSpaceS,
                       Text(
-                        'وضعیت کنونی سامانه و آمار کلی در این بخش قابل مشاهده است.',
+                        LocaleKeys.dashboard_desc.tr(),
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
                         ),
@@ -95,24 +144,24 @@ class HomeView extends ConsumerWidget {
                     ],
                   ),
                 ),
-                const SizedBox(height: 32),
+                AppSpacing.verticalSpaceXxl,
                 Text(
-                  'آمار و کارکردها',
+                  LocaleKeys.dashboard_stats_title.tr(),
                   style: theme.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 16),
+                AppSpacing.verticalSpaceL,
                 HomeCardWidget(
-                  title: 'کاربران فعال سامانه',
-                  value: '${summary.activeUsersCount} نفر',
+                  title: LocaleKeys.active_users.tr(),
+                  value: LocaleKeys.people_count.tr(args: [summary.activeUsersCount.toString()]),
                   icon: Icons.people_alt_rounded,
                   color: theme.colorScheme.primary,
                 ),
-                const SizedBox(height: 16),
+                AppSpacing.verticalSpaceL,
                 HomeCardWidget(
-                  title: 'کارهای در انتظار بررسی',
-                  value: '${summary.pendingTasksCount} مورد',
+                  title: LocaleKeys.pending_tasks.tr(),
+                  value: LocaleKeys.tasks_count.tr(args: [summary.pendingTasksCount.toString()]),
                   icon: Icons.task_alt_rounded,
                   color: Colors.orange,
                 ),

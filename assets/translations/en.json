@@ -20,5 +20,12 @@
   "retry": "Retry",
   "loading": "Loading & preparing...",
   "settings": "Settings",
-  "theme_mode": "Theme Mode"
+  "theme_mode": "Theme Mode",
+  "dashboard_title": "Management Dashboard",
+  "dashboard_desc": "Current status of the system and general statistics are visible here.",
+  "dashboard_stats_title": "Statistics & Operations",
+  "active_users": "Active System Users",
+  "pending_tasks": "Pending Tasks",
+  "people_count": "{} people",
+  "tasks_count": "{} items"
 }
