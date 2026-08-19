@@ -14,7 +14,8 @@ class SettingsPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(),
-      body: ListView(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SwitchListTile(
             title: Text('حالت روشن'),
@@ -22,7 +23,10 @@ class SettingsPage extends ConsumerWidget {
             onChanged: (_) => themeNotifier.toggleTheme(),
           ),
           const Divider(),
-          ColorPickerWidget(),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 300),
+            child: ColorPickerWidget(),
+          ),
         ],
       ),
     );
