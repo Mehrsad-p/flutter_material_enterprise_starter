@@ -355,7 +355,13 @@ class _BrightnessSlider extends StatelessWidget {
           height: 36,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
-            gradient: LinearGradient(colors: [Colors.black, baseColor]),
+            gradient: LinearGradient(
+                // In RTL the slider thumb moves right→left (value 0→1),
+                // so we reverse the gradient to keep dark=low and bright=high.
+                colors: Directionality.of(context) == TextDirection.rtl
+                    ? [baseColor, Colors.black]
+                    : [Colors.black, baseColor],
+              ),
             boxShadow: [
               BoxShadow(
                 color: baseColor.withValues(alpha: 0.3),
