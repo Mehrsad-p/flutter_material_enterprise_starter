@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_material_enterprise_starter/app/router/app_routes.dart';
+import 'package:flutter_material_enterprise_starter/app/router/app_page_transition.dart';
 
 part 'app_router.g.dart';
 
@@ -20,12 +21,19 @@ GoRouter appRouter(Ref ref) {
       GoRoute(
         path: AppRoutes.initial,
         name: AppRoutes.initial,
-        builder: (context, state) => const Scaffold(body: LauncherView()),
+        pageBuilder: (context, state) => AppPageTransition.slideHorizontal(
+          key: state.pageKey,
+          child: const Scaffold(body: LauncherView()),
+        ),
       ),
       GoRoute(
         path: AppRoutes.home,
         name: AppRoutes.home,
-        builder: (context, state) => const Scaffold(body: HomeView()),
+
+        pageBuilder: (context, state) => AppPageTransition.slideHorizontal(
+          key: state.pageKey,
+          child: const Scaffold(body: HomeView()),
+        ),
       ),
 
       // ── Settings ShellRoute ──────────────────────────────────────
@@ -36,12 +44,14 @@ GoRouter appRouter(Ref ref) {
           GoRoute(
             path: AppRoutes.settings,
             name: AppRoutes.settings,
-            builder: (context, state) => const SettingsBody(),
+            pageBuilder: (context, state) =>
+                NoTransitionPage(child: const SettingsBody()),
           ),
           GoRoute(
             path: AppRoutes.themeColor,
             name: AppRoutes.themeColor,
-            builder: (context, state) => const ThemeColorPickerBody(),
+            pageBuilder: (context, state) =>
+                NoTransitionPage<void>(child: const ThemeColorPickerBody()),
           ),
         ],
       ),

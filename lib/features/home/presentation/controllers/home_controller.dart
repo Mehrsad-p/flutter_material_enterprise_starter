@@ -20,7 +20,9 @@ HomeRepository homeRepository(HomeRepositoryRef ref) {
 }
 
 @riverpod
-FetchHomeSummaryUseCase fetchHomeSummaryUseCase(FetchHomeSummaryUseCaseRef ref) {
+FetchHomeSummaryUseCase fetchHomeSummaryUseCase(
+  FetchHomeSummaryUseCaseRef ref,
+) {
   final repository = ref.watch(homeRepositoryProvider);
   return FetchHomeSummaryUseCase(repository);
 }
@@ -29,7 +31,8 @@ FetchHomeSummaryUseCase fetchHomeSummaryUseCase(FetchHomeSummaryUseCaseRef ref) 
 class HomeController extends _$HomeController {
   @override
   HomeState build() {
-    Future.microtask(() => loadDashboard());
+    loadDashboard();
+
     return const HomeState.initial();
   }
 

@@ -25,7 +25,7 @@ class HomeView extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
-            onPressed: () => ref.read(homeControllerProvider.notifier).loadDashboard(),
+            onPressed: () => context.goNamed(AppRoutes.initial),
           ),
         ],
       ),
@@ -79,9 +79,7 @@ class HomeView extends ConsumerWidget {
         child: state.when(
           initial: () => const SizedBox.shrink(),
           loading: () => Center(
-            child: CircularProgressIndicator(
-              color: theme.colorScheme.primary,
-            ),
+            child: CircularProgressIndicator(color: theme.colorScheme.primary),
           ),
           error: (message) => Center(
             child: Column(
@@ -101,7 +99,8 @@ class HomeView extends ConsumerWidget {
                 ),
                 AppSpacing.verticalSpaceL,
                 FilledButton.icon(
-                  onPressed: () => ref.read(homeControllerProvider.notifier).loadDashboard(),
+                  onPressed: () =>
+                      ref.read(homeControllerProvider.notifier).loadDashboard(),
                   icon: const Icon(Icons.refresh_rounded),
                   label: Text(LocaleKeys.retry.tr()),
                 ),
@@ -141,7 +140,9 @@ class HomeView extends ConsumerWidget {
                       Text(
                         LocaleKeys.dashboard_desc.tr(),
                         style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
+                          color: theme.colorScheme.onPrimary.withValues(
+                            alpha: 0.8,
+                          ),
                         ),
                       ),
                     ],
@@ -157,14 +158,18 @@ class HomeView extends ConsumerWidget {
                 AppSpacing.verticalSpaceL,
                 HomeCardWidget(
                   title: LocaleKeys.active_users.tr(),
-                  value: LocaleKeys.people_count.tr(args: [summary.activeUsersCount.toString()]),
+                  value: LocaleKeys.people_count.tr(
+                    args: [summary.activeUsersCount.toString()],
+                  ),
                   icon: Icons.people_alt_rounded,
                   color: theme.colorScheme.primary,
                 ),
                 AppSpacing.verticalSpaceL,
                 HomeCardWidget(
                   title: LocaleKeys.pending_tasks.tr(),
-                  value: LocaleKeys.tasks_count.tr(args: [summary.pendingTasksCount.toString()]),
+                  value: LocaleKeys.tasks_count.tr(
+                    args: [summary.pendingTasksCount.toString()],
+                  ),
                   icon: Icons.task_alt_rounded,
                   color: Colors.orange,
                 ),
