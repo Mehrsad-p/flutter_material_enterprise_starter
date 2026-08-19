@@ -1,10 +1,7 @@
 import 'package:flutter_material_enterprise_starter/core/errors/result.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:flutter_material_enterprise_starter/features/auth/domain/repositories/auth_repository.dart';
-import 'package:flutter_material_enterprise_starter/features/auth/domain/usecases/login_usecase.dart';
-import 'package:flutter_material_enterprise_starter/features/auth/domain/usecases/signup_usecase.dart';
-import 'package:flutter_material_enterprise_starter/features/auth/presentation/states/auth_state.dart';
+import 'package:flutter_material_enterprise_starter/features/auth/auth.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_controller.g.dart';

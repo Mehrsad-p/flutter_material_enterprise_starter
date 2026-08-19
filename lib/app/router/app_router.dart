@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_material_enterprise_starter/features/home/presentation/views/home_view.dart';
-import 'package:flutter_material_enterprise_starter/features/launcher/presentation/views/launcher_view.dart';
-import 'package:flutter_material_enterprise_starter/features/setting/presentation/pages/setting_body.dart';
-import 'package:flutter_material_enterprise_starter/features/setting/presentation/pages/setting_page.dart';
-import 'package:flutter_material_enterprise_starter/features/setting/presentation/pages/theme_color_picker_page.dart';
+import 'package:flutter_material_enterprise_starter/features/home/home.dart';
+import 'package:flutter_material_enterprise_starter/features/launcher/launcher.dart';
+import 'package:flutter_material_enterprise_starter/features/setting/setting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

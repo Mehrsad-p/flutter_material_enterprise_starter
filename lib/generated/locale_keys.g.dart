@@ -49,5 +49,11 @@ abstract class  LocaleKeys {
   static const error_server = 'error_server';
   static const error_connection = 'error_connection';
   static const error_cache = 'error_cache';
+  static const settings_theme_color_label = 'settings_theme_color_label';
+  static const settings_color_picker_title = 'settings_color_picker_title';
+  static const settings_color_picker_brightness = 'settings_color_picker_brightness';
+  static const settings_color_picker_opacity = 'settings_color_picker_opacity';
+  static const settings_color_picker_apply = 'settings_color_picker_apply';
+  static const settings_color_picker_confirm = 'settings_color_picker_confirm';
 
 }

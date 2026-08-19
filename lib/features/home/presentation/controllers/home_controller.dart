@@ -1,9 +1,7 @@
 import 'package:flutter_material_enterprise_starter/core/errors/result.dart';
 import 'package:flutter_material_enterprise_starter/features/home/data/datasources/home_local_datasource.dart';
 import 'package:flutter_material_enterprise_starter/features/home/data/repositories/home_repository_impl.dart';
-import 'package:flutter_material_enterprise_starter/features/home/domain/repositories/home_repository.dart';
-import 'package:flutter_material_enterprise_starter/features/home/domain/usecases/fetch_home_summary_usecase.dart';
-import 'package:flutter_material_enterprise_starter/features/home/presentation/states/home_state.dart';
+import 'package:flutter_material_enterprise_starter/features/home/home.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'home_controller.g.dart';

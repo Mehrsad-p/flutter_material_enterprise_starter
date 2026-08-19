@@ -1,6 +1,9 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter_material_enterprise_starter/core/design_system/theme/provider/theme_provider.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/theme/color_extensions.dart';
+import 'package:flutter_material_enterprise_starter/generated/locale_keys.g.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // ─────────────────────────────────────────────────────────────
@@ -76,14 +79,14 @@ class _ColorPreviewButton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'رنگ اصلی برنامه',
+                  LocaleKeys.settings_theme_color_label.tr(),
                   style: theme.textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '#${color.toARGB32().toRadixString(16).toUpperCase().substring(2)}',
+                  color.toHex(),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.55),
                     fontFamily: 'monospace',
@@ -162,6 +165,11 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
     widget.onColorChanged(_currentColor);
   }
 
+  void _onOpacityChanged(double alpha) {
+    setState(() => _hsv = HSVColor.fromAHSV(alpha, _hsv.hue, _hsv.saturation, _hsv.value));
+    widget.onColorChanged(_currentColor);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -227,7 +235,7 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    'انتخاب رنگ',
+                    LocaleKeys.settings_color_picker_title.tr(),
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
@@ -260,6 +268,18 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
               ),
             ),
 
+            const SizedBox(height: 20),
+
+            // Opacity slider
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: _OpacitySlider(
+                opacity: _hsv.alpha,
+                color: _currentColor,
+                onChanged: _onOpacityChanged,
+              ),
+            ),
+
             const SizedBox(height: 24),
 
             // Preset swatches
@@ -286,9 +306,9 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
                   ),
                 ),
                 icon: const Icon(Icons.check_rounded),
-                label: const Text(
-                  'اعمال رنگ',
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                label: Text(
+                  LocaleKeys.settings_color_picker_apply.tr(),
+                  style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
                 ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
@@ -495,7 +515,7 @@ class _BrightnessSlider extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             Text(
-              'روشنایی',
+              LocaleKeys.settings_color_picker_brightness.tr(),
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -530,6 +550,81 @@ class _BrightnessSlider extends StatelessWidget {
             ),
             child: Slider(
               value: value,
+              onChanged: onChanged,
+              activeColor: Colors.transparent,
+              inactiveColor: Colors.transparent,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+//  Opacity slider
+// ─────────────────────────────────────────────────────────────
+class _OpacitySlider extends StatelessWidget {
+  const _OpacitySlider({
+    required this.opacity,
+    required this.color,
+    required this.onChanged,
+  });
+  final double opacity;
+  final Color color;
+  final ValueChanged<double> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final opaqueColor = color.withValues(alpha: 1.0);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(
+              Icons.opacity_rounded,
+              size: 18,
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              LocaleKeys.settings_color_picker_opacity.tr(),
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withValues(alpha: 0.6),
+                  ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Container(
+          height: 36,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            gradient: LinearGradient(
+              colors: [opaqueColor.withValues(alpha: 0.0), opaqueColor],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: opaqueColor.withValues(alpha: 0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: SliderTheme(
+            data: SliderThemeData(
+              trackHeight: 36,
+              thumbShape: _GlowThumbShape(color: color),
+              trackShape: const _TransparentTrackShape(),
+              overlayShape: SliderComponentShape.noOverlay,
+            ),
+            child: Slider(
+              value: opacity,
               onChanged: onChanged,
               activeColor: Colors.transparent,
               inactiveColor: Colors.transparent,
@@ -665,8 +760,7 @@ class _HexBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hex =
-        '#${color.toARGB32().toRadixString(16).toUpperCase().substring(2)}';
+    final hex = color.toHex();
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter_material_enterprise_starter/core/design_system/theme/provider/theme_provider.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/theme/color_extensions.dart';
 import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_spacing.dart';
 import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_radius.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,8 +52,7 @@ class _ThemeColorPickerBodyState extends ConsumerState<ThemeColorPickerBody> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final surfaceColor = theme.colorScheme.surfaceContainerLow;
-    final hex =
-        '#${_currentColor.toARGB32().toRadixString(16).toUpperCase().substring(2)}';
+    final hex = _currentColor.toHex();
 
     return SafeArea(
       child: SingleChildScrollView(

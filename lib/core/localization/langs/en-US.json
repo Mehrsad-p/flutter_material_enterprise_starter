@@ -44,5 +44,11 @@
   "settings_theme": "Theme Color",
   "error_server": "A server error occurred",
   "error_connection": "An error occurred while communicating with the server",
-  "error_cache": "Error accessing local cache"
+  "error_cache": "Error accessing local cache",
+  "settings_theme_color_label": "App Main Color",
+  "settings_color_picker_title": "Select Color",
+  "settings_color_picker_brightness": "Brightness",
+  "settings_color_picker_opacity": "Opacity",
+  "settings_color_picker_apply": "Apply Color",
+  "settings_color_picker_confirm": "Confirm & Save"
 }

@@ -1,9 +1,7 @@
 import 'package:flutter_material_enterprise_starter/core/errors/result.dart';
 import 'package:flutter_material_enterprise_starter/features/launcher/data/datasources/launcher_local_datasource.dart';
 import 'package:flutter_material_enterprise_starter/features/launcher/data/repositories/launcher_repository_impl.dart';
-import 'package:flutter_material_enterprise_starter/features/launcher/domain/repositories/launcher_repository.dart';
-import 'package:flutter_material_enterprise_starter/features/launcher/domain/usecases/initialize_app_usecase.dart';
-import 'package:flutter_material_enterprise_starter/features/launcher/presentation/states/launcher_state.dart';
+import 'package:flutter_material_enterprise_starter/features/launcher/launcher.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'launcher_controller.g.dart';
