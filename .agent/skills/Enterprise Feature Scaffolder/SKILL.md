@@ -1,4 +1,4 @@
-### 🎯 Feature Generation Prompt: Enterprise Feature Scaffolder
+### 🎯 Enterprise Feature Scaffolder (Clean & Empty Canvas)
 
 Please implement the **[feature_name, e.g., product_details]** feature according to **Feature-First Clean Architecture**, utilizing **Riverpod (v2+)** and **Freezed**.
 
@@ -37,21 +37,22 @@ lib/features/[feature_name]/
    - DataSources throw exceptions. Repositories catch these exceptions and map them to Domain Failures.
    - Include Riverpod `Provider` definitions for DataSources and Repositories.
 
-3. **Presentation Layer & UI Entry Point:**
+3. **Presentation Layer & UI Entry Point (CRITICAL - KEEP UI BLANK):**
    - Define the **State** class using `@freezed` (Initial, Loading, Success, Error).
    - The **Controller** must inherit from `AsyncNotifier` (or `Notifier`), interact directly with UseCases.
-   - **Main View (`views/[feature_name]_view.dart`):** Generate this as the root entry point for the feature. It must be a `ConsumerWidget`.
-   - Design the **UI** based on **Material Design 3** guidelines.
+   - **Main View (`views/[feature_name]_view.dart`):** Generate this as a `ConsumerWidget`.
+   - **IMPORTANT:** Do NOT generate mock lists, custom cards, or hardcoded dummy UI elements in the `Success` state. Keep the View completely BLANK and minimal (e.g., a simple `Scaffold` with an `AppBar` and a `Center` containing an empty `SizedBox` or a basic placeholder text). I will design the UI components myself.
 
 ---
 
-#### 🚦 3. Post-Generation Instruction (Routing Snippet)
-DO NOT generate, rewrite, or modify the `app_routes.dart` file. 
-Instead, at the very end of your response, add a section called "### 🚦 Routing Instruction" and provide ONLY the single line of code that I need to manually paste into my existing `AppRoutes` class.
-Format it exactly like this:
-`static const String [feature_name] = '/[feature_name]';`
+#### 🚦 3. Post-Generation Instruction (Routing Update)
+- **Update `app_routes.dart`:** Provide the full updated content for `lib/app/router/app_routes.dart` including the new static route key for this feature:
+  `static const String [feature_name] = '/[feature_name]';`
+- **DO NOT modify `app_router.dart`:** Do NOT generate, rewrite, or modify `lib/app/router/app_router.dart`. Leave the GoRouter configuration intact.
 
 ---
+
+
 
 #### 🤖 4. AI Generation Rules:
    - Provide the EXACT relative file path for every code block (e.g., `lib/features/...`).

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/theme/provider/state/theme_state.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/theme/typography.dart';
 
 abstract class AppTheme {
   const AppTheme._();
@@ -9,6 +11,8 @@ abstract class AppTheme {
     Brightness brightness = Brightness.light,
     Color? seedColor,
     ColorScheme? dynamicColorScheme,
+    required AppThemeFonts fonts,
+    required FontSize fontSize,
   }) {
     final colorScheme =
         dynamicColorScheme ??
@@ -17,10 +21,18 @@ abstract class AppTheme {
           brightness: brightness,
         );
 
+    final textTheme = createTextTheme(
+      fonts.bodyFont,
+      fonts.displayFont,
+      fontSize,
+      brightness,
+    );
+
     return ThemeData(
       useMaterial3: true,
       brightness: colorScheme.brightness,
       colorScheme: colorScheme,
+      textTheme: textTheme,
       scaffoldBackgroundColor: colorScheme.surface,
 
       appBarTheme: AppBarTheme(

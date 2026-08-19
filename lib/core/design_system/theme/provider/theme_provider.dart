@@ -19,6 +19,14 @@ class AppThemeNotifier extends _$AppThemeNotifier {
     state = state.copyWith(seedColor: color);
   }
 
+  void setFonts(AppThemeFonts fonts) {
+    state = state.copyWith(fonts: fonts);
+  }
+
+  void setFontSize(FontSize size) {
+    state = state.copyWith(fontSize: size);
+  }
+
   void toggleTheme() {
     state = state.copyWith(
       themeMode: state.themeMode == ThemeMode.light

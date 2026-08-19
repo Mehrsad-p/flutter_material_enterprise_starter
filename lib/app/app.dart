@@ -13,24 +13,25 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(appRouterProvider);
-
-    final themeMode = ref.watch(
-      appThemeNotifierProvider.select((value) => value.themeMode),
-    );
-    final seedColor = ref.watch(
-      appThemeNotifierProvider.select((value) => value.seedColor),
-    );
+    final themeState = ref.watch(appThemeNotifierProvider);
 
     return MaterialApp.router(
       title: 'Enterprise Starter',
       debugShowCheckedModeBanner: false,
 
-      theme: AppTheme.build(brightness: Brightness.light, seedColor: seedColor),
+      theme: AppTheme.build(
+        brightness: Brightness.light,
+        seedColor: themeState.seedColor,
+        fonts: themeState.fonts,
+        fontSize: themeState.fontSize,
+      ),
       darkTheme: AppTheme.build(
         brightness: Brightness.dark,
-        seedColor: seedColor,
+        seedColor: themeState.seedColor,
+        fonts: themeState.fonts,
+        fontSize: themeState.fontSize,
       ),
-      themeMode: themeMode,
+      themeMode: themeState.themeMode,
 
       routerConfig: router,
     );
