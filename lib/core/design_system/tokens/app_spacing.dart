@@ -10,6 +10,11 @@ abstract class AppSpacing {
   static const double xl = 24.0;
   static const double xxl = 32.0;
 
+  // General layout spacing values
+  static const double spacingMin = s;       // 8.0 (Low)
+  static const double spacing = l;          // 16.0 (Normal)
+  static const double spacingMax = xl;      // 24.0 (Max)
+
   static const EdgeInsets paddingAllXs = EdgeInsets.all(xs);
   static const EdgeInsets paddingAllS = EdgeInsets.all(s);
   static const EdgeInsets paddingAllM = EdgeInsets.all(m);

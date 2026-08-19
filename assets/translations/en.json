@@ -27,5 +27,15 @@
   "active_users": "Active System Users",
   "pending_tasks": "Pending Tasks",
   "people_count": "{} people",
-  "tasks_count": "{} items"
+  "tasks_count": "{} items",
+  "settings_profile_details": "Profile details",
+  "settings_password": "Password",
+  "settings_notifications": "Notifications",
+  "settings_dark_mode": "Dark mode",
+  "settings_about": "About application",
+  "settings_help": "Help/FAQ",
+  "settings_deactivate": "Deactivate my account",
+  "settings_other_section": "Other settings",
+  "user_role": "Product/UI Designer",
+  "user_name": "Erfan Mohamadi"
 }

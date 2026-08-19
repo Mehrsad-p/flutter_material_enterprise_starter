@@ -27,5 +27,15 @@
   "active_users": "کاربران فعال سامانه",
   "pending_tasks": "کارهای در انتظار بررسی",
   "people_count": "{} نفر",
-  "tasks_count": "{} مورد"
+  "tasks_count": "{} مورد",
+  "settings_profile_details": "مشخصات کاربری",
+  "settings_password": "گذرواژه",
+  "settings_notifications": "اعلان‌ها",
+  "settings_dark_mode": "حالت تاریک",
+  "settings_about": "درباره برنامه",
+  "settings_help": "راهنما و سوالات متداول",
+  "settings_deactivate": "غیرفعال‌سازی حساب کاربری",
+  "settings_other_section": "سایر تنظیمات",
+  "user_role": "طراح رابط کاربری / محصول",
+  "user_name": "عرفان محمدی"
 }

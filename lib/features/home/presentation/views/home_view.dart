@@ -7,6 +7,8 @@ import 'package:flutter_material_enterprise_starter/features/home/presentation/c
 import 'package:flutter_material_enterprise_starter/features/home/presentation/states/home_state.dart';
 import 'package:flutter_material_enterprise_starter/features/home/presentation/widgets/home_card_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_material_enterprise_starter/app/router/app_routes.dart';
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
@@ -66,6 +68,7 @@ class HomeView extends ConsumerWidget {
                 title: Text(LocaleKeys.settings.tr()),
                 onTap: () {
                   Navigator.pop(context);
+                  context.push(AppRoutes.settings);
                 },
               ),
             ],

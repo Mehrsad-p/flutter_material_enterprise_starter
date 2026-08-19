@@ -32,5 +32,15 @@ abstract class  LocaleKeys {
   static const pending_tasks = 'pending_tasks';
   static const people_count = 'people_count';
   static const tasks_count = 'tasks_count';
+  static const settings_profile_details = 'settings_profile_details';
+  static const settings_password = 'settings_password';
+  static const settings_notifications = 'settings_notifications';
+  static const settings_dark_mode = 'settings_dark_mode';
+  static const settings_about = 'settings_about';
+  static const settings_help = 'settings_help';
+  static const settings_deactivate = 'settings_deactivate';
+  static const settings_other_section = 'settings_other_section';
+  static const user_role = 'user_role';
+  static const user_name = 'user_name';
 
 }
