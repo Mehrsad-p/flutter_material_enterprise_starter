@@ -37,5 +37,9 @@
   "settings_deactivate": "غیرفعال‌سازی حساب کاربری",
   "settings_other_section": "سایر تنظیمات",
   "user_role": "طراح رابط کاربری / محصول",
-  "user_name": "عرفان محمدی"
+  "user_name": "عرفان محمدی",
+  "settings_language": "زبان برنامه",
+  "language_fa": "فارسی",
+  "language_en": "English",
+  "settings_theme": "رنگ پوسته"
 }

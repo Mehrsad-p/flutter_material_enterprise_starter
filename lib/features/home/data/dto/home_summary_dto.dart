@@ -1,21 +1,16 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'home_summary_dto.freezed.dart';
 part 'home_summary_dto.g.dart';
 
-@JsonSerializable()
-class HomeSummaryDto {
-  final String welcomeMessage;
-  final int activeUsersCount;
-  final int pendingTasksCount;
-
-  const HomeSummaryDto({
-    required this.welcomeMessage,
-    required this.activeUsersCount,
-    required this.pendingTasksCount,
-  });
+@freezed
+abstract class HomeSummaryDto with _$HomeSummaryDto {
+  const factory HomeSummaryDto({
+    required String welcomeMessage,
+    required int activeUsersCount,
+    required int pendingTasksCount,
+  }) = _HomeSummaryDto;
 
   factory HomeSummaryDto.fromJson(Map<String, dynamic> json) =>
       _$HomeSummaryDtoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$HomeSummaryDtoToJson(this);
 }

@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_spacing.dart';
 import 'package:flutter_material_enterprise_starter/generated/locale_keys.g.dart';
-import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/profile_card_widget.dart';
-import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/other_settings_card.dart';
-import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/support_settings_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+/// Shell scaffold for the Settings section.
+/// Wraps all settings sub-pages with a shared AppBar and Scaffold,
+/// and renders the active child route as the body.
 class SettingsPage extends ConsumerWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({super.key, required this.child});
+
+  /// The currently active sub-page body (injected by GoRouter ShellRoute).
+  final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,43 +45,12 @@ class SettingsPage extends ConsumerWidget {
                 color: theme.colorScheme.onSurface,
                 size: 20,
               ),
-              onPressed: () => context.pop(),
+              onPressed: () => context.canPop() ? context.pop() : null,
             ),
           ),
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: AppSpacing.paddingAllL,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: AppSpacing.spacing,
-            children: [
-              const ProfileCardWidget(),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: AppSpacing.spacingMin,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s),
-                    child: Text(
-                      LocaleKeys.settings_other_section.tr(),
-                      style: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                      ),
-                    ),
-                  ),
-                  const OtherSettingsCard(),
-                ],
-              ),
-
-              const SupportSettingsCard(),
-            ],
-          ),
-        ),
-      ),
+      body: child,
     );
   }
 }

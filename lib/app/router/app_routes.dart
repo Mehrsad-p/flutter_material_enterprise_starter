@@ -8,4 +8,5 @@ abstract class AppRoutes {
   static const String login = '/login';
   static const String auth = '/auth';
   static const String settings = '/settings';
+  static const String themeColor = '/settings/theme';
 }

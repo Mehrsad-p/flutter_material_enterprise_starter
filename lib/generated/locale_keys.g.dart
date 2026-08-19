@@ -42,5 +42,9 @@ abstract class  LocaleKeys {
   static const settings_other_section = 'settings_other_section';
   static const user_role = 'user_role';
   static const user_name = 'user_name';
+  static const settings_language = 'settings_language';
+  static const language_fa = 'language_fa';
+  static const language_en = 'language_en';
+  static const settings_theme = 'settings_theme';
 
 }
