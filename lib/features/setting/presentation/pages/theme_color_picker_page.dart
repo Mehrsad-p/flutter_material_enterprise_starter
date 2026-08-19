@@ -138,9 +138,7 @@ class _ThemeColorPickerBodyState extends ConsumerState<ThemeColorPickerBody> {
               selected: _currentColor,
               onSelected: (c) {
                 setState(() => _hsv = HSVColor.fromColor(c));
-                ref
-                    .read(appThemeNotifierProvider.notifier)
-                    .setSeedColor(c);
+                ref.read(appThemeNotifierProvider.notifier).setSeedColor(c);
               },
             ),
 
@@ -277,7 +275,11 @@ class _WheelPainter extends CustomPainter {
       );
     }
 
-    canvas.drawCircle(center, innerRadius - 2, Paint()..color = hsvColor.toColor());
+    canvas.drawCircle(
+      center,
+      innerRadius - 2,
+      Paint()..color = hsvColor.toColor(),
+    );
     canvas.drawCircle(
       center,
       innerRadius,
@@ -289,14 +291,16 @@ class _WheelPainter extends CustomPainter {
 
     const double thumbR = 12;
     canvas.drawCircle(
-      thumbOffset, thumbR + 3,
+      thumbOffset,
+      thumbR + 3,
       Paint()
         ..color = Colors.black.withValues(alpha: 0.3)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4),
     );
     canvas.drawCircle(thumbOffset, thumbR, Paint()..color = Colors.white);
     canvas.drawCircle(
-      thumbOffset, thumbR - 4,
+      thumbOffset,
+      thumbR - 4,
       Paint()..color = HSVColor.fromAHSV(1, hsvColor.hue, 1, 1).toColor(),
     );
   }
@@ -335,19 +339,17 @@ class _BrightnessSlider extends StatelessWidget {
             Icon(
               Icons.light_mode_rounded,
               size: 18,
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.5),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.5),
             ),
             Text(
               'روشنایی',
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.6),
-                  ),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.6),
+              ),
             ),
           ],
         ),
@@ -356,12 +358,12 @@ class _BrightnessSlider extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18),
             gradient: LinearGradient(
-                // In RTL the slider thumb moves right→left (value 0→1),
-                // so we reverse the gradient to keep dark=low and bright=high.
-                colors: Directionality.of(context) == TextDirection.rtl
-                    ? [baseColor, Colors.black]
-                    : [Colors.black, baseColor],
-              ),
+              // In RTL the slider thumb moves right→left (value 0→1),
+              // so we reverse the gradient to keep dark=low and bright=high.
+              colors: Directionality.of(context) == TextDirection.rtl
+                  ? [baseColor, Colors.black]
+                  : [Colors.black, baseColor],
+            ),
             boxShadow: [
               BoxShadow(
                 color: baseColor.withValues(alpha: 0.3),
@@ -432,7 +434,8 @@ class _GlowThumbShape extends SliderComponentShape {
   }) {
     final canvas = context.canvas;
     canvas.drawCircle(
-      center, 17,
+      center,
+      17,
       Paint()
         ..color = Colors.black.withValues(alpha: 0.3)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5),
@@ -481,9 +484,17 @@ class _PresetSwatches extends StatelessWidget {
                 color: c,
                 shape: BoxShape.circle,
                 boxShadow: isSelected
-                    ? [BoxShadow(color: c.withValues(alpha: 0.6), blurRadius: 10, spreadRadius: 2)]
+                    ? [
+                        BoxShadow(
+                          color: c.withValues(alpha: 0.6),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        ),
+                      ]
                     : [],
-                border: isSelected ? Border.all(color: Colors.white, width: 2.5) : null,
+                border: isSelected
+                    ? Border.all(color: Colors.white, width: 2.5)
+                    : null,
               ),
             ),
           );
