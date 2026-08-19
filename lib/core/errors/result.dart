@@ -1,20 +1,12 @@
 import 'package:flutter_material_enterprise_starter/core/errors/failure.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-sealed class Result<T> {
-  const Result();
+part 'result.freezed.dart';
 
-  factory Result.success(T data) = Success<T>;
-  factory Result.failure(Failure failure) = FailureResult<T>;
-}
-
-class Success<T> extends Result<T> {
-  final T data;
-  const Success(this.data);
-}
-
-class FailureResult<T> extends Result<T> {
-  final Failure failure;
-  const FailureResult(this.failure);
+@freezed
+sealed class Result<T> with _$Result<T> {
+  const factory Result.success(T data) = Success<T>;
+  const factory Result.failure(Failure failure) = FailureResult<T>;
 }
 
 /// A global helper to safely perform asynchronous operations and map errors to a [Result].
