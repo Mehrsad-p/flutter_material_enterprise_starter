@@ -11,7 +11,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<User>> login(String email, String password) {
-    return safeCall(
+    return safeApiCall(
       call: () async {
         final dto = await _localDataSource.loginMock(email, password);
         return dto.toEntity();
@@ -21,7 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<User>> signUp(String email, String password) {
-    return safeCall(
+    return safeApiCall(
       call: () async {
         final dto = await _localDataSource.signUpMock(email, password);
         return dto.toEntity();

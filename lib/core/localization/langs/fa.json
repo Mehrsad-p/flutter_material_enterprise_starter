@@ -41,5 +41,8 @@
   "settings_language": "زبان برنامه",
   "language_fa": "فارسی",
   "language_en": "English",
-  "settings_theme": "رنگ پوسته"
+  "settings_theme": "رنگ پوسته",
+  "error_server": "خطایی در سرور رخ داده است",
+  "error_connection": "خطایی در ارتباط با سرور رخ داده است",
+  "error_cache": "خطا در دسترسی به حافظه محلی"
 }

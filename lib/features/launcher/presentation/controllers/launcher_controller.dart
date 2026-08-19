@@ -39,21 +39,18 @@ class LauncherController extends _$LauncherController {
     final useCase = ref.read(initializeAppUseCaseProvider);
     final result = await useCase.execute();
 
-    switch (result) {
-      case Success(data: final config):
+    state = await result.when(
+      success: (config) async {
         if (config.isMaintenanceMode) {
-          state = const LauncherState.error('برنامه در دست تعمیر است');
-          return;
+          return const LauncherState.error('برنامه در دست تعمیر است');
         }
         final sessionResult = await ref.read(launcherRepositoryProvider).checkUserSession();
-        switch (sessionResult) {
-          case Success(data: final hasSession):
-            state = LauncherState.success(hasActiveSession: hasSession);
-          case FailureResult(failure: final failure):
-            state = LauncherState.error(failure.message);
-        }
-      case FailureResult(failure: final failure):
-        state = LauncherState.error(failure.message);
-    }
+        return sessionResult.when(
+          success: (hasSession) => LauncherState.success(hasActiveSession: hasSession),
+          error: (failure) => LauncherState.error(failure.message),
+        );
+      },
+      error: (failure) => LauncherState.error(failure.message),
+    );
   }
 }

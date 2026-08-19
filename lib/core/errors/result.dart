@@ -6,13 +6,13 @@ part 'result.freezed.dart';
 @freezed
 sealed class Result<T> with _$Result<T> {
   const factory Result.success(T data) = Success<T>;
-  const factory Result.failure(Failure failure) = FailureResult<T>;
+  const factory Result.error(Failure failure) = ErrorResult<T>;
 }
 
-/// A global helper to safely perform asynchronous operations and map errors to a [Result].
+/// A global helper to safely perform asynchronous API/Repository operations and map errors to a [Result].
 ///
-/// If an error is thrown, it defaults to a [ServerFailure] unless a custom [errorMapper] is provided.
-Future<Result<T>> safeCall<T>({
+/// If an error is thrown, it defaults to a [ServerFailure] (via Failure.fromException) unless a custom [errorMapper] is provided.
+Future<Result<T>> safeApiCall<T>({
   required Future<T> Function() call,
   Failure Function(dynamic error)? errorMapper,
 }) async {
@@ -21,8 +21,8 @@ Future<Result<T>> safeCall<T>({
     return Result.success(response);
   } catch (e) {
     if (errorMapper != null) {
-      return Result.failure(errorMapper(e));
+      return Result.error(errorMapper(e));
     }
-    return Result.failure(ServerFailure(e.toString()));
+    return Result.error(Failure.fromException(e));
   }
 }

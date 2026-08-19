@@ -46,5 +46,8 @@ abstract class  LocaleKeys {
   static const language_fa = 'language_fa';
   static const language_en = 'language_en';
   static const settings_theme = 'settings_theme';
+  static const error_server = 'error_server';
+  static const error_connection = 'error_connection';
+  static const error_cache = 'error_cache';
 
 }

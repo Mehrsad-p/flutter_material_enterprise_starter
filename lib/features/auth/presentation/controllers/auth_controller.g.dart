@@ -76,7 +76,7 @@ final signUpUseCaseProvider = AutoDisposeProvider<SignUpUseCase>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef SignUpUseCaseRef = AutoDisposeProviderRef<SignUpUseCase>;
-String _$authControllerHash() => r'd12ce946bd2c23cfcbddff56eec8aec63e62c9a5';
+String _$authControllerHash() => r'a8cc4899c1016f225a2791d2c3d8171b8da6ac6a';
 
 /// See also [AuthController].
 @ProviderFor(AuthController)

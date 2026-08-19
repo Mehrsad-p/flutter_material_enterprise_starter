@@ -62,7 +62,7 @@ final fetchHomeSummaryUseCaseProvider =
 // ignore: unused_element
 typedef FetchHomeSummaryUseCaseRef =
     AutoDisposeProviderRef<FetchHomeSummaryUseCase>;
-String _$homeControllerHash() => r'a889ad49c36374b7e3e48988be4aeafc5ab71382';
+String _$homeControllerHash() => r'457c32251a1000e0c55a84be9ef0682c1d5b2764';
 
 /// See also [HomeController].
 @ProviderFor(HomeController)

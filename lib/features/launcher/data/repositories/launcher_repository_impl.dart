@@ -12,7 +12,7 @@ class LauncherRepositoryImpl implements LauncherRepository {
 
   @override
   Future<Result<AppInitConfig>> getInitConfig() {
-    return safeCall(
+    return safeApiCall(
       call: () async {
         final dto = await _localDataSource.fetchInitConfigMock();
         return dto.toEntity();
@@ -22,7 +22,7 @@ class LauncherRepositoryImpl implements LauncherRepository {
 
   @override
   Future<Result<bool>> checkUserSession() {
-    return safeCall(
+    return safeApiCall(
       call: () => _localDataSource.hasActiveSession(),
       errorMapper: (e) => CacheFailure(e.toString()),
     );

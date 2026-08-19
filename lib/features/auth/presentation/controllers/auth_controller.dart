@@ -45,12 +45,10 @@ class AuthController extends _$AuthController {
     final useCase = ref.read(loginUseCaseProvider);
     final result = await useCase.execute(email, password);
 
-    switch (result) {
-      case Success(data: final user):
-        state = AuthState.success(user);
-      case FailureResult(failure: final failure):
-        state = AuthState.error(failure.message);
-    }
+    state = result.when(
+      success: (user) => AuthState.success(user),
+      error: (failure) => AuthState.error(failure.message),
+    );
   }
 
   Future<void> signUp(String email, String password) async {
@@ -59,11 +57,9 @@ class AuthController extends _$AuthController {
     final useCase = ref.read(signUpUseCaseProvider);
     final result = await useCase.execute(email, password);
 
-    switch (result) {
-      case Success(data: final user):
-        state = AuthState.success(user);
-      case FailureResult(failure: final failure):
-        state = AuthState.error(failure.message);
-    }
+    state = result.when(
+      success: (user) => AuthState.success(user),
+      error: (failure) => AuthState.error(failure.message),
+    );
   }
 }

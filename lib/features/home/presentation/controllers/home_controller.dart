@@ -42,11 +42,9 @@ class HomeController extends _$HomeController {
     final useCase = ref.read(fetchHomeSummaryUseCaseProvider);
     final result = await useCase.execute();
 
-    switch (result) {
-      case Success(data: final summary):
-        state = HomeState.success(summary);
-      case FailureResult(failure: final failure):
-        state = HomeState.error(failure.message);
-    }
+    state = result.when(
+      success: (summary) => HomeState.success(summary),
+      error: (failure) => HomeState.error(failure.message),
+    );
   }
 }

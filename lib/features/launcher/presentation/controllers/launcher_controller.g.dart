@@ -65,7 +65,7 @@ final initializeAppUseCaseProvider =
 // ignore: unused_element
 typedef InitializeAppUseCaseRef = AutoDisposeProviderRef<InitializeAppUseCase>;
 String _$launcherControllerHash() =>
-    r'53891526419b682da7cdb04dc64cf7643096c0b5';
+    r'1e2b883656ab8679f69032f58cdb3356d1fe1991';
 
 /// See also [LauncherController].
 @ProviderFor(LauncherController)

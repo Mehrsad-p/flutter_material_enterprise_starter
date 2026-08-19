@@ -41,5 +41,8 @@
   "settings_language": "App Language",
   "language_fa": "فارسی",
   "language_en": "English",
-  "settings_theme": "Theme Color"
+  "settings_theme": "Theme Color",
+  "error_server": "A server error occurred",
+  "error_connection": "An error occurred while communicating with the server",
+  "error_cache": "Error accessing local cache"
 }

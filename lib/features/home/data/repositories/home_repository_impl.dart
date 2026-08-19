@@ -11,7 +11,7 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Result<HomeSummary>> getHomeSummary() {
-    return safeCall(
+    return safeApiCall(
       call: () async {
         final dto = await _localDataSource.fetchHomeSummaryMock();
         return dto.toEntity();

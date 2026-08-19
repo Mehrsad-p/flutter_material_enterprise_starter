@@ -55,12 +55,12 @@ extension ResultPatterns<T> on Result<T> {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Success<T> value)?  success,TResult Function( FailureResult<T> value)?  failure,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Success<T> value)?  success,TResult Function( ErrorResult<T> value)?  error,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case Success() when success != null:
-return success(_that);case FailureResult() when failure != null:
-return failure(_that);case _:
+return success(_that);case ErrorResult() when error != null:
+return error(_that);case _:
   return orElse();
 
 }
@@ -78,12 +78,12 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Success<T> value)  success,required TResult Function( FailureResult<T> value)  failure,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Success<T> value)  success,required TResult Function( ErrorResult<T> value)  error,}){
 final _that = this;
 switch (_that) {
 case Success():
-return success(_that);case FailureResult():
-return failure(_that);}
+return success(_that);case ErrorResult():
+return error(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -97,12 +97,12 @@ return failure(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Success<T> value)?  success,TResult? Function( FailureResult<T> value)?  failure,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Success<T> value)?  success,TResult? Function( ErrorResult<T> value)?  error,}){
 final _that = this;
 switch (_that) {
 case Success() when success != null:
-return success(_that);case FailureResult() when failure != null:
-return failure(_that);case _:
+return success(_that);case ErrorResult() when error != null:
+return error(_that);case _:
   return null;
 
 }
@@ -119,11 +119,11 @@ return failure(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( T data)?  success,TResult Function( Failure failure)?  failure,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( T data)?  success,TResult Function( Failure failure)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Success() when success != null:
-return success(_that.data);case FailureResult() when failure != null:
-return failure(_that.failure);case _:
+return success(_that.data);case ErrorResult() when error != null:
+return error(_that.failure);case _:
   return orElse();
 
 }
@@ -141,11 +141,11 @@ return failure(_that.failure);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( T data)  success,required TResult Function( Failure failure)  failure,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( T data)  success,required TResult Function( Failure failure)  error,}) {final _that = this;
 switch (_that) {
 case Success():
-return success(_that.data);case FailureResult():
-return failure(_that.failure);}
+return success(_that.data);case ErrorResult():
+return error(_that.failure);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -159,11 +159,11 @@ return failure(_that.failure);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( T data)?  success,TResult? Function( Failure failure)?  failure,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( T data)?  success,TResult? Function( Failure failure)?  error,}) {final _that = this;
 switch (_that) {
 case Success() when success != null:
-return success(_that.data);case FailureResult() when failure != null:
-return failure(_that.failure);case _:
+return success(_that.data);case ErrorResult() when error != null:
+return error(_that.failure);case _:
   return null;
 
 }
@@ -240,8 +240,8 @@ as T,
 /// @nodoc
 
 
-class FailureResult<T> implements Result<T> {
-  const FailureResult(this.failure);
+class ErrorResult<T> implements Result<T> {
+  const ErrorResult(this.failure);
   
 
  final  Failure failure;
@@ -250,13 +250,13 @@ class FailureResult<T> implements Result<T> {
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$FailureResultCopyWith<T, FailureResult<T>> get copyWith => _$FailureResultCopyWithImpl<T, FailureResult<T>>(this, _$identity);
+$ErrorResultCopyWith<T, ErrorResult<T>> get copyWith => _$ErrorResultCopyWithImpl<T, ErrorResult<T>>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FailureResult<T>&&(identical(other.failure, failure) || other.failure == failure));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ErrorResult<T>&&(identical(other.failure, failure) || other.failure == failure));
 }
 
 
@@ -265,42 +265,51 @@ int get hashCode => Object.hash(runtimeType,failure);
 
 @override
 String toString() {
-  return 'Result<$T>.failure(failure: $failure)';
+  return 'Result<$T>.error(failure: $failure)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $FailureResultCopyWith<T,$Res> implements $ResultCopyWith<T, $Res> {
-  factory $FailureResultCopyWith(FailureResult<T> value, $Res Function(FailureResult<T>) _then) = _$FailureResultCopyWithImpl;
+abstract mixin class $ErrorResultCopyWith<T,$Res> implements $ResultCopyWith<T, $Res> {
+  factory $ErrorResultCopyWith(ErrorResult<T> value, $Res Function(ErrorResult<T>) _then) = _$ErrorResultCopyWithImpl;
 @useResult
 $Res call({
  Failure failure
 });
 
 
-
+$FailureCopyWith<$Res> get failure;
 
 }
 /// @nodoc
-class _$FailureResultCopyWithImpl<T,$Res>
-    implements $FailureResultCopyWith<T, $Res> {
-  _$FailureResultCopyWithImpl(this._self, this._then);
+class _$ErrorResultCopyWithImpl<T,$Res>
+    implements $ErrorResultCopyWith<T, $Res> {
+  _$ErrorResultCopyWithImpl(this._self, this._then);
 
-  final FailureResult<T> _self;
-  final $Res Function(FailureResult<T>) _then;
+  final ErrorResult<T> _self;
+  final $Res Function(ErrorResult<T>) _then;
 
 /// Create a copy of Result
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
-  return _then(FailureResult<T>(
+  return _then(ErrorResult<T>(
 null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
 as Failure,
   ));
 }
 
-
+/// Create a copy of Result
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$FailureCopyWith<$Res> get failure {
+  
+  return $FailureCopyWith<$Res>(_self.failure, (value) {
+    return _then(_self.copyWith(failure: value));
+  });
+}
 }
 
 // dart format on
