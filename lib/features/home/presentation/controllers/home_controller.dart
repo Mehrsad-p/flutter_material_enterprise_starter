@@ -31,7 +31,7 @@ FetchHomeSummaryUseCase fetchHomeSummaryUseCase(
 class HomeController extends _$HomeController {
   @override
   HomeState build() {
-    loadDashboard();
+    Future.microtask(() => loadDashboard());
 
     return const HomeState.initial();
   }

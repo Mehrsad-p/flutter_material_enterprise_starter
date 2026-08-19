@@ -1,4 +1,3 @@
-import 'package:flutter_material_enterprise_starter/core/errors/failure.dart';
 import 'package:flutter_material_enterprise_starter/core/errors/result.dart';
 import 'package:flutter_material_enterprise_starter/features/home/data/datasources/home_local_datasource.dart';
 import 'package:flutter_material_enterprise_starter/features/home/data/mapper/home_mapper.dart';
@@ -11,12 +10,12 @@ class HomeRepositoryImpl implements HomeRepository {
   const HomeRepositoryImpl(this._localDataSource);
 
   @override
-  Future<Result<HomeSummary>> getHomeSummary() async {
-    try {
-      final dto = await _localDataSource.fetchHomeSummaryMock();
-      return Result.success(dto.toEntity());
-    } catch (e) {
-      return Result.failure(ServerFailure(e.toString()));
-    }
+  Future<Result<HomeSummary>> getHomeSummary() {
+    return safeCall(
+      call: () async {
+        final dto = await _localDataSource.fetchHomeSummaryMock();
+        return dto.toEntity();
+      },
+    );
   }
 }

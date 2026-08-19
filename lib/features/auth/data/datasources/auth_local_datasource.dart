@@ -1,28 +1,32 @@
+import 'package:flutter_material_enterprise_starter/features/auth/data/dto/user_dto.dart';
+
 abstract interface class AuthLocalDataSource {
-  Future<Map<String, dynamic>> loginMock(String email, String password);
-  Future<Map<String, dynamic>> signUpMock(String email, String password);
+  Future<UserDto> loginMock(String email, String password);
+  Future<UserDto> signUpMock(String email, String password);
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   const AuthLocalDataSourceImpl();
 
   @override
-  Future<Map<String, dynamic>> loginMock(String email, String password) async {
+  Future<UserDto> loginMock(String email, String password) async {
     await Future.delayed(const Duration(seconds: 1));
-    return {
+    final json = {
       'id': '101',
       'email': email,
       'token': 'mock_token_xyz_123',
     };
+    return UserDto.fromJson(json);
   }
 
   @override
-  Future<Map<String, dynamic>> signUpMock(String email, String password) async {
+  Future<UserDto> signUpMock(String email, String password) async {
     await Future.delayed(const Duration(seconds: 1));
-    return {
+    final json = {
       'id': '102',
       'email': email,
       'token': 'mock_token_abc_789',
     };
+    return UserDto.fromJson(json);
   }
 }
