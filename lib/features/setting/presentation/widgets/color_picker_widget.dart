@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter_material_enterprise_starter/core/design_system/theme/provider/theme_provider.dart';
 import 'package:flutter_material_enterprise_starter/core/design_system/theme/color_extensions.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_spacing.dart';
+import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_radius.dart';
 import 'package:flutter_material_enterprise_starter/generated/locale_keys.g.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -48,15 +50,19 @@ class _ColorPreviewButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.l,
+        vertical: AppSpacing.m,
+      ),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppRadius.borderRadiusL,
         border: Border.all(
           color: theme.colorScheme.outline.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
+        spacing: AppSpacing.m,
         children: [
           Container(
             width: 36,
@@ -73,9 +79,9 @@ class _ColorPreviewButton extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 12),
           Expanded(
             child: Column(
+              spacing: AppSpacing.xs,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -84,7 +90,6 @@ class _ColorPreviewButton extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 2),
                 Text(
                   color.toHex(),
                   style: theme.textTheme.bodySmall?.copyWith(
@@ -100,7 +105,6 @@ class _ColorPreviewButton extends StatelessWidget {
             color: color,
             size: 22,
           ),
-          const SizedBox(width: 4),
           Icon(
             Icons.chevron_right_rounded,
             color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
@@ -166,7 +170,9 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
   }
 
   void _onOpacityChanged(double alpha) {
-    setState(() => _hsv = HSVColor.fromAHSV(alpha, _hsv.hue, _hsv.saturation, _hsv.value));
+    setState(
+      () => _hsv = HSVColor.fromAHSV(alpha, _hsv.hue, _hsv.saturation, _hsv.value),
+    );
     widget.onColorChanged(_currentColor);
   }
 
@@ -185,38 +191,49 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
       child: Container(
         decoration: BoxDecoration(
           color: bg,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(AppRadius.xl),
+          ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.25),
-              blurRadius: 32,
+              blurRadius: AppSpacing.xxl,
               offset: const Offset(0, -8),
             ),
           ],
         ),
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+          bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.xl,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             // Drag handle
             Padding(
-              padding: const EdgeInsets.only(top: 12, bottom: 4),
+              padding: const EdgeInsets.only(
+                top: AppSpacing.m,
+                bottom: AppSpacing.xs,
+              ),
               child: Container(
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(2),
+                  borderRadius: AppRadius.borderRadiusXs,
                 ),
               ),
             ),
 
             // Header
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.xl,
+                AppSpacing.m,
+                AppSpacing.xl,
+                0,
+              ),
               child: Row(
+                spacing: AppSpacing.s,
                 children: [
                   Container(
                     width: 28,
@@ -227,13 +244,12 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
                       boxShadow: [
                         BoxShadow(
                           color: _currentColor.withValues(alpha: 0.6),
-                          blurRadius: 8,
+                          blurRadius: AppSpacing.s,
                           spreadRadius: 1,
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 10),
                   Text(
                     LocaleKeys.settings_color_picker_title.tr(),
                     style: theme.textTheme.titleMedium?.copyWith(
@@ -246,7 +262,7 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
               ),
             ),
 
-            const SizedBox(height: 24),
+            AppSpacing.verticalSpaceXl,
 
             // Color Wheel
             Center(
@@ -256,11 +272,11 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
               ),
             ),
 
-            const SizedBox(height: 28),
+            AppSpacing.verticalSpaceXl,
 
             // Brightness slider
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: AppSpacing.paddingHorizontalXl,
               child: _BrightnessSlider(
                 value: _hsv.value,
                 hsvColor: _hsv,
@@ -268,11 +284,11 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
               ),
             ),
 
-            const SizedBox(height: 20),
+            AppSpacing.verticalSpaceL,
 
             // Opacity slider
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: AppSpacing.paddingHorizontalXl,
               child: _OpacitySlider(
                 opacity: _hsv.alpha,
                 color: _currentColor,
@@ -280,7 +296,7 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
               ),
             ),
 
-            const SizedBox(height: 24),
+            AppSpacing.verticalSpaceXl,
 
             // Preset swatches
             _PresetSwatches(
@@ -291,18 +307,18 @@ class _ColorPickerSheetState extends State<_ColorPickerSheet>
               },
             ),
 
-            const SizedBox(height: 20),
+            AppSpacing.verticalSpaceL,
 
             // Apply button
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: AppSpacing.paddingHorizontalXl,
               child: FilledButton.icon(
                 style: FilledButton.styleFrom(
                   backgroundColor: _currentColor,
                   foregroundColor: _contrastColor(_currentColor),
                   minimumSize: const Size.fromHeight(52),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: AppRadius.borderRadiusL,
                   ),
                 ),
                 icon: const Icon(Icons.check_rounded),
@@ -504,16 +520,17 @@ class _BrightnessSlider extends StatelessWidget {
     final baseColor = hsvColor.withSaturation(1).withValue(1).toColor();
 
     return Column(
+      spacing: AppSpacing.s,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          spacing: AppSpacing.s,
           children: [
             Icon(
               Icons.light_mode_rounded,
               size: 18,
               color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
             ),
-            const SizedBox(width: 6),
             Text(
               LocaleKeys.settings_color_picker_brightness.tr(),
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
@@ -525,18 +542,17 @@ class _BrightnessSlider extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 10),
         Container(
           height: 36,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: AppRadius.borderRadiusCircular,
             gradient: LinearGradient(
               colors: [Colors.black, baseColor],
             ),
             boxShadow: [
               BoxShadow(
                 color: baseColor.withValues(alpha: 0.3),
-                blurRadius: 8,
+                blurRadius: AppSpacing.s,
                 offset: const Offset(0, 3),
               ),
             ],
@@ -579,16 +595,17 @@ class _OpacitySlider extends StatelessWidget {
     final opaqueColor = color.withValues(alpha: 1.0);
 
     return Column(
+      spacing: AppSpacing.s,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          spacing: AppSpacing.s,
           children: [
             Icon(
               Icons.opacity_rounded,
               size: 18,
               color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
             ),
-            const SizedBox(width: 6),
             Text(
               LocaleKeys.settings_color_picker_opacity.tr(),
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
@@ -600,18 +617,17 @@ class _OpacitySlider extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 10),
         Container(
           height: 36,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: AppRadius.borderRadiusCircular,
             gradient: LinearGradient(
               colors: [opaqueColor.withValues(alpha: 0.0), opaqueColor],
             ),
             boxShadow: [
               BoxShadow(
                 color: opaqueColor.withValues(alpha: 0.2),
-                blurRadius: 8,
+                blurRadius: AppSpacing.s,
                 offset: const Offset(0, 3),
               ),
             ],
@@ -713,7 +729,7 @@ class _PresetSwatches extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: AppSpacing.paddingHorizontalXl,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: _presets.map((c) {
@@ -762,10 +778,13 @@ class _HexBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final hex = color.toHex();
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.s,
+        vertical: AppSpacing.xs,
+      ),
       decoration: BoxDecoration(
         color: surface,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: AppRadius.borderRadiusS,
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Text(
