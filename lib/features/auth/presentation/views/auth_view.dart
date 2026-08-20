@@ -12,7 +12,6 @@ class AuthView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final state = ref.watch(authControllerProvider);
 
     // Listen to error states to show Snackbar notifications
     ref.listen<AuthState>(authControllerProvider, (previous, next) {

@@ -6,7 +6,6 @@
   "pending_tasks": "Pending Tasks",
   "people_count": "{} people",
   "tasks_count": "{} items",
-
   "auth": {
     "login_title": "Sign In",
     "register_title": "Create Account",
@@ -27,7 +26,6 @@
     "invalid_credentials": "Invalid email or password",
     "email_already_in_use": "An account with this email already exists"
   },
-
   "settings": {
     "title": "Settings",
     "theme_mode": "Theme Mode",
@@ -45,28 +43,24 @@
     "color_picker": {
       "title": "Select Color",
       "brightness": "Brightness",
-      "opacity": "Opacity",
-      "apply": "Apply Color",
-      "confirm": "Confirm & Save"
+      "apply": "Confirm & Save",
+      "presets": "Preset Colors",
+      "color_wheel": "Color Wheel"
     }
   },
-
   "dashboard": {
     "title": "Management Dashboard",
     "desc": "Current status of the system and general statistics are visible here.",
     "stats_title": "Statistics & Operations"
   },
-
   "user": {
     "role": "Product/UI Designer",
     "name": "Ali Shahdadi"
   },
-
   "language": {
     "fa": "فارسی",
     "en": "English"
   },
-
   "error": {
     "server": "A server error occurred",
     "connection": "An error occurred while communicating with the server",

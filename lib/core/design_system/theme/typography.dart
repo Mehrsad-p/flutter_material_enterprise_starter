@@ -36,28 +36,44 @@ TextTheme createTextTheme(
       : Fonts.iranSans;
 
   final textTheme = TextTheme(
-    displayLarge: baseTextTheme.displayLarge?.copyWith(fontFamily: validDisplayFont),
-    displayMedium: baseTextTheme.displayMedium?.copyWith(fontFamily: validDisplayFont),
-    displaySmall: baseTextTheme.displaySmall?.copyWith(fontFamily: validDisplayFont),
-    
-    headlineLarge: baseTextTheme.headlineLarge?.copyWith(fontFamily: validDisplayFont),
-    headlineMedium: baseTextTheme.headlineMedium?.copyWith(fontFamily: validDisplayFont),
-    headlineSmall: baseTextTheme.headlineSmall?.copyWith(fontFamily: validDisplayFont),
-    
-    titleLarge: baseTextTheme.titleLarge?.copyWith(fontFamily: validDisplayFont),
-    titleMedium: baseTextTheme.titleMedium?.copyWith(fontFamily: validDisplayFont),
-    titleSmall: baseTextTheme.titleSmall?.copyWith(fontFamily: validDisplayFont),
-    
+    displayLarge: baseTextTheme.displayLarge?.copyWith(
+      fontFamily: validDisplayFont,
+    ),
+    displayMedium: baseTextTheme.displayMedium?.copyWith(
+      fontFamily: validDisplayFont,
+    ),
+    displaySmall: baseTextTheme.displaySmall?.copyWith(
+      fontFamily: validDisplayFont,
+    ),
+
+    headlineLarge: baseTextTheme.headlineLarge?.copyWith(
+      fontFamily: validDisplayFont,
+    ),
+    headlineMedium: baseTextTheme.headlineMedium?.copyWith(
+      fontFamily: validDisplayFont,
+    ),
+    headlineSmall: baseTextTheme.headlineSmall?.copyWith(
+      fontFamily: validDisplayFont,
+    ),
+
+    titleLarge: baseTextTheme.titleLarge?.copyWith(
+      fontFamily: validDisplayFont,
+    ),
+    titleMedium: baseTextTheme.titleMedium?.copyWith(
+      fontFamily: validDisplayFont,
+    ),
+    titleSmall: baseTextTheme.titleSmall?.copyWith(
+      fontFamily: validDisplayFont,
+    ),
+
     bodyLarge: baseTextTheme.bodyLarge?.copyWith(fontFamily: validBodyFont),
     bodyMedium: baseTextTheme.bodyMedium?.copyWith(fontFamily: validBodyFont),
     bodySmall: baseTextTheme.bodySmall?.copyWith(fontFamily: validBodyFont),
-    
+
     labelLarge: baseTextTheme.labelLarge?.copyWith(fontFamily: validBodyFont),
     labelMedium: baseTextTheme.labelMedium?.copyWith(fontFamily: validBodyFont),
     labelSmall: baseTextTheme.labelSmall?.copyWith(fontFamily: validBodyFont),
   );
 
-  return textTheme.apply(
-    fontSizeFactor: getFontSizeFactor(fontSize),
-  );
+  return textTheme.apply(fontSizeFactor: getFontSizeFactor(fontSize));
 }

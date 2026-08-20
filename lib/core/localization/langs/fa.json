@@ -6,7 +6,6 @@
   "pending_tasks": "کارهای در انتظار بررسی",
   "people_count": "{} نفر",
   "tasks_count": "{} مورد",
-
   "auth": {
     "login_title": "ورود به حساب کاربری",
     "register_title": "ثبت‌نام در سامانه",
@@ -27,7 +26,6 @@
     "invalid_credentials": "ایمیل یا رمز عبور نامعتبر است",
     "email_already_in_use": "حساب کاربری با این ایمیل از قبل وجود دارد"
   },
-
   "settings": {
     "title": "تنظیمات",
     "theme_mode": "حالت تم",
@@ -45,28 +43,24 @@
     "color_picker": {
       "title": "انتخاب رنگ",
       "brightness": "روشنایی",
-      "opacity": "شفافیت",
-      "apply": "اعمال رنگ",
-      "confirm": "تایید و ذخیره"
+      "apply": "تأیید و ذخیره",
+      "presets": "رنگ‌های پیش‌فرض",
+      "color_wheel": "چرخه رنگ"
     }
   },
-
   "dashboard": {
     "title": "میز کار مدیریت",
     "desc": "وضعیت کنونی سامانه و آمار کلی در این بخش قابل مشاهده است.",
     "stats_title": "آمار و کارکردها"
   },
-
   "user": {
     "role": "طراح رابط کاربری / محصول",
     "name": "علی شاهدادی"
   },
-
   "language": {
     "fa": "فارسی",
     "en": "English"
   },
-
   "error": {
     "server": "خطایی در سرور رخ داده است",
     "connection": "خطایی در ارتباط با سرور رخ داده است",
