@@ -1,54 +1,75 @@
 {
   "app_name": "Enterprise Management App",
-  "welcome_back": "Welcome Back",
-  "welcome_description": "Please enter your details below to login to your account.",
-  "email": "Email Address",
-  "email_required": "Please enter your email",
-  "email_invalid": "Please enter a valid email address",
-  "password": "Password",
-  "password_required": "Please enter your password",
-  "password_length_error": "Password must be at least 6 characters long",
-  "confirm_password": "Confirm Password",
-  "confirm_password_required": "Please confirm your password",
-  "passwords_do_not_match": "Passwords do not match",
-  "login": "Login",
-  "signup": "Sign Up",
-  "no_account": "Don't have an account?",
-  "have_account": "Already registered?",
-  "create_account": "Create Account",
-  "register_description": "Enter your details below to get started.",
   "retry": "Retry",
   "loading": "Loading & preparing...",
-  "settings": "Settings",
-  "theme_mode": "Theme Mode",
-  "dashboard_title": "Management Dashboard",
-  "dashboard_desc": "Current status of the system and general statistics are visible here.",
-  "dashboard_stats_title": "Statistics & Operations",
   "active_users": "Active System Users",
   "pending_tasks": "Pending Tasks",
   "people_count": "{} people",
   "tasks_count": "{} items",
-  "settings_profile_details": "Profile details",
-  "settings_password": "Password",
-  "settings_notifications": "Notifications",
-  "settings_dark_mode": "Dark mode",
-  "settings_about": "About application",
-  "settings_help": "Help/FAQ",
-  "settings_deactivate": "Deactivate my account",
-  "settings_other_section": "Other settings",
-  "user_role": "Product/UI Designer",
-  "user_name": "Ali Shahdadi",
-  "settings_language": "App Language",
-  "language_fa": "فارسی",
-  "language_en": "English",
-  "settings_theme": "Theme Color",
-  "error_server": "A server error occurred",
-  "error_connection": "An error occurred while communicating with the server",
-  "error_cache": "Error accessing local cache",
-  "settings_theme_color_label": "App Main Color",
-  "settings_color_picker_title": "Select Color",
-  "settings_color_picker_brightness": "Brightness",
-  "settings_color_picker_opacity": "Opacity",
-  "settings_color_picker_apply": "Apply Color",
-  "settings_color_picker_confirm": "Confirm & Save"
+
+  "auth": {
+    "login_title": "Sign In",
+    "register_title": "Create Account",
+    "email_label": "Email Address",
+    "password_label": "Password",
+    "confirm_password_label": "Confirm Password",
+    "login_btn": "Sign In",
+    "register_btn": "Register",
+    "logout_btn": "Log Out",
+    "no_account": "Don't have an account? Sign Up",
+    "have_account": "Already have an account? Sign In",
+    "passwords_mismatch": "Passwords do not match",
+    "email_required": "Please enter your email",
+    "email_invalid": "Invalid email format",
+    "password_required": "Please enter your password",
+    "password_short": "Password must be at least 6 characters",
+    "confirm_password_required": "Please confirm your password",
+    "invalid_credentials": "Invalid email or password",
+    "email_already_in_use": "An account with this email already exists"
+  },
+
+  "settings": {
+    "title": "Settings",
+    "theme_mode": "Theme Mode",
+    "profile_details": "Profile details",
+    "password": "Password",
+    "notifications": "Notifications",
+    "dark_mode": "Dark mode",
+    "about": "About application",
+    "help": "Help/FAQ",
+    "deactivate": "Deactivate my account",
+    "other_section": "Other settings",
+    "language": "App Language",
+    "theme": "Theme Color",
+    "theme_color_label": "App Main Color",
+    "color_picker": {
+      "title": "Select Color",
+      "brightness": "Brightness",
+      "opacity": "Opacity",
+      "apply": "Apply Color",
+      "confirm": "Confirm & Save"
+    }
+  },
+
+  "dashboard": {
+    "title": "Management Dashboard",
+    "desc": "Current status of the system and general statistics are visible here.",
+    "stats_title": "Statistics & Operations"
+  },
+
+  "user": {
+    "role": "Product/UI Designer",
+    "name": "Ali Shahdadi"
+  },
+
+  "language": {
+    "fa": "فارسی",
+    "en": "English"
+  },
+
+  "error": {
+    "server": "A server error occurred",
+    "connection": "An error occurred while communicating with the server",
+    "cache": "Error accessing local cache"
+  }
 }

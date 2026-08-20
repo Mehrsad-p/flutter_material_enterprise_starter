@@ -6,6 +6,7 @@ abstract class AppRoutes {
   static const String home = '/home';
   static const String launcher = '/laucher';
   static const String login = '/login';
+  static const String register = '/register';
   static const String auth = '/auth';
   static const String settings = '/settings';
   static const String themeColor = '/settings/theme';

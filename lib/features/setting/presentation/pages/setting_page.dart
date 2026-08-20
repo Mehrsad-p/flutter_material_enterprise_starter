@@ -25,7 +25,7 @@ class SettingsPage extends ConsumerWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          LocaleKeys.settings.tr(),
+          LocaleKeys.settings_title.tr(),
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),

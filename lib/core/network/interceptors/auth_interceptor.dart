@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_material_enterprise_starter/core/storage/token_storage.dart';
 
 class AuthInterceptor extends Interceptor {
   final Ref ref;
@@ -28,9 +28,7 @@ class AuthInterceptor extends Interceptor {
 
   Future<String?> _getToken() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('accessToken');
-      return token != null && token.isNotEmpty ? token : null;
+      return await ref.read(tokenStorageProvider).getAccessToken();
     } catch (_) {
       return null;
     }

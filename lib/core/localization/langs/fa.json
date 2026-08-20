@@ -1,54 +1,75 @@
 {
   "app_name": "برنامه مدیریت سازمانی",
-  "welcome_back": "خوش آمدید",
-  "welcome_description": "جهت ورود به حساب کاربری خود، اطلاعات زیر را وارد کنید.",
-  "email": "پست الکترونیکی",
-  "email_required": "لطفاً ایمیل خود را وارد کنید",
-  "email_invalid": "لطفاً یک ایمیل معتبر وارد کنید",
-  "password": "رمز عبور",
-  "password_required": "لطفاً رمز عبور خود را وارد کنید",
-  "password_length_error": "رمز عبور باید حداقل ۶ کاراکتر باشد",
-  "confirm_password": "تکرار رمز عبور",
-  "confirm_password_required": "لطفاً تکرار رمز عبور خود را وارد کنید",
-  "passwords_do_not_match": "رمز عبور با تکرار آن مطابقت ندارد",
-  "login": "ورود",
-  "signup": "ثبت‌نام",
-  "no_account": "حساب کاربری ندارید؟",
-  "have_account": "قبلاً ثبت‌نام کرده‌اید؟",
-  "create_account": "ایجاد حساب کاربری",
-  "register_description": "برای شروع فرآیند، اطلاعات خود را در زیر وارد کنید.",
   "retry": "تلاش مجدد",
   "loading": "در حال آماده‌سازی و بارگذاری...",
-  "settings": "تنظیمات",
-  "theme_mode": "حالت تم",
-  "dashboard_title": "میز کار مدیریت",
-  "dashboard_desc": "وضعیت کنونی سامانه و آمار کلی در این بخش قابل مشاهده است.",
-  "dashboard_stats_title": "آمار و کارکردها",
   "active_users": "کاربران فعال سامانه",
   "pending_tasks": "کارهای در انتظار بررسی",
   "people_count": "{} نفر",
   "tasks_count": "{} مورد",
-  "settings_profile_details": "مشخصات کاربری",
-  "settings_password": "گذرواژه",
-  "settings_notifications": "اعلان‌ها",
-  "settings_dark_mode": "حالت تاریک",
-  "settings_about": "درباره برنامه",
-  "settings_help": "راهنما و سوالات متداول",
-  "settings_deactivate": "غیرفعال‌سازی حساب کاربری",
-  "settings_other_section": "سایر تنظیمات",
-  "user_role": "طراح رابط کاربری / محصول",
-  "user_name": "علی شاهدادی",
-  "settings_language": "زبان برنامه",
-  "language_fa": "فارسی",
-  "language_en": "English",
-  "settings_theme": "رنگ پوسته",
-  "error_server": "خطایی در سرور رخ داده است",
-  "error_connection": "خطایی در ارتباط با سرور رخ داده است",
-  "error_cache": "خطا در دسترسی به حافظه محلی",
-  "settings_theme_color_label": "رنگ اصلی برنامه",
-  "settings_color_picker_title": "انتخاب رنگ",
-  "settings_color_picker_brightness": "روشنایی",
-  "settings_color_picker_opacity": "شفافیت",
-  "settings_color_picker_apply": "اعمال رنگ",
-  "settings_color_picker_confirm": "تایید و ذخیره"
+
+  "auth": {
+    "login_title": "ورود به حساب کاربری",
+    "register_title": "ثبت‌نام در سامانه",
+    "email_label": "پست الکترونیک",
+    "password_label": "رمز عبور",
+    "confirm_password_label": "تکرار رمز عبور",
+    "login_btn": "ورود",
+    "register_btn": "ثبت‌نام",
+    "logout_btn": "خروج از حساب",
+    "no_account": "حسابی ندارید؟ ثبت‌نام کنید",
+    "have_account": "حساب کاربری دارید؟ وارد شوید",
+    "passwords_mismatch": "رمزهای عبور همخوانی ندارند",
+    "email_required": "لطفاً ایمیل خود را وارد کنید",
+    "email_invalid": "فرمت ایمیل نامعتبر است",
+    "password_required": "لطفاً رمز عبور خود را وارد کنید",
+    "password_short": "رمز عبور باید حداقل ۶ کاراکتر باشد",
+    "confirm_password_required": "لطفاً تکرار رمز عبور را وارد کنید",
+    "invalid_credentials": "ایمیل یا رمز عبور نامعتبر است",
+    "email_already_in_use": "حساب کاربری با این ایمیل از قبل وجود دارد"
+  },
+
+  "settings": {
+    "title": "تنظیمات",
+    "theme_mode": "حالت تم",
+    "profile_details": "مشخصات کاربری",
+    "password": "گذرواژه",
+    "notifications": "اعلان‌ها",
+    "dark_mode": "حالت تاریک",
+    "about": "درباره برنامه",
+    "help": "راهنما و سوالات متداول",
+    "deactivate": "غیرفعال‌سازی حساب کاربری",
+    "other_section": "سایر تنظیمات",
+    "language": "زبان برنامه",
+    "theme": "رنگ پوسته",
+    "theme_color_label": "رنگ اصلی برنامه",
+    "color_picker": {
+      "title": "انتخاب رنگ",
+      "brightness": "روشنایی",
+      "opacity": "شفافیت",
+      "apply": "اعمال رنگ",
+      "confirm": "تایید و ذخیره"
+    }
+  },
+
+  "dashboard": {
+    "title": "میز کار مدیریت",
+    "desc": "وضعیت کنونی سامانه و آمار کلی در این بخش قابل مشاهده است.",
+    "stats_title": "آمار و کارکردها"
+  },
+
+  "user": {
+    "role": "طراح رابط کاربری / محصول",
+    "name": "علی شاهدادی"
+  },
+
+  "language": {
+    "fa": "فارسی",
+    "en": "English"
+  },
+
+  "error": {
+    "server": "خطایی در سرور رخ داده است",
+    "connection": "خطایی در ارتباط با سرور رخ داده است",
+    "cache": "خطا در دسترسی به حافظه محلی"
+  }
 }

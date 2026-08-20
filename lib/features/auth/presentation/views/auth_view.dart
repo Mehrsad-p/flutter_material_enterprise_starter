@@ -1,56 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_material_enterprise_starter/app/router/app_routes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/presentation/states/auth_state.dart';
-import 'package:flutter_material_enterprise_starter/features/auth/presentation/views/login_view.dart';
-import 'package:flutter_material_enterprise_starter/features/auth/presentation/views/register_view.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-class AuthView extends ConsumerStatefulWidget {
-  const AuthView({super.key});
+/// General Auth Container Shell View that coordinates loading screen overlays and error snacks.
+class AuthView extends ConsumerWidget {
+  final Widget child;
 
-  @override
-  ConsumerState<AuthView> createState() => _AuthViewState();
-}
-
-class _AuthViewState extends ConsumerState<AuthView> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+  const AuthView({super.key, required this.child});
 
   @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final state = ref.watch(authControllerProvider);
 
-  void _navigateToPage(int page) {
-    setState(() => _currentPage = page);
-    _pageController.animateToPage(
-      page,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
+    // Listen to error states to show Snackbar notifications
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
       next.maybeWhen(
-        success: (user) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('خوش آمدید، ${user.email}'),
-              backgroundColor: Colors.green,
-            ),
-          );
-          context.go(AppRoutes.home);
-        },
         error: (message) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(message),
-              backgroundColor: Theme.of(context).colorScheme.error,
+              backgroundColor: theme.colorScheme.error,
             ),
           );
         },
@@ -58,19 +29,6 @@ class _AuthViewState extends ConsumerState<AuthView> {
       );
     });
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_currentPage == 0 ? 'ورود' : 'ثبت‌نام'),
-        centerTitle: true,
-      ),
-      body: PageView(
-        controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          LoginView(onSwitchToRegister: () => _navigateToPage(1)),
-          RegisterView(onSwitchToLogin: () => _navigateToPage(0)),
-        ],
-      ),
-    );
+    return Scaffold(body: child);
   }
 }
