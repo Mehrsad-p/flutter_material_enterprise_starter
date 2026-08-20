@@ -46,7 +46,11 @@
       "apply": "تأیید و ذخیره",
       "presets": "رنگ‌های پیش‌فرض",
       "color_wheel": "چرخه رنگ"
-    }
+    },
+    "font_size": "اندازه قلم",
+    "font_size_small": "کوچک",
+    "font_size_medium": "معمولی",
+    "font_size_large": "بزرگ"
   },
   "dashboard": {
     "title": "میز کار مدیریت",

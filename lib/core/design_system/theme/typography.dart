@@ -35,45 +35,33 @@ TextTheme createTextTheme(
       ? displayFontString
       : Fonts.iranSans;
 
-  final textTheme = TextTheme(
-    displayLarge: baseTextTheme.displayLarge?.copyWith(
-      fontFamily: validDisplayFont,
-    ),
-    displayMedium: baseTextTheme.displayMedium?.copyWith(
-      fontFamily: validDisplayFont,
-    ),
-    displaySmall: baseTextTheme.displaySmall?.copyWith(
-      fontFamily: validDisplayFont,
-    ),
+  final factor = getFontSizeFactor(fontSize);
 
-    headlineLarge: baseTextTheme.headlineLarge?.copyWith(
-      fontFamily: validDisplayFont,
-    ),
-    headlineMedium: baseTextTheme.headlineMedium?.copyWith(
-      fontFamily: validDisplayFont,
-    ),
-    headlineSmall: baseTextTheme.headlineSmall?.copyWith(
-      fontFamily: validDisplayFont,
-    ),
+  TextStyle? scale(TextStyle? style, double defaultSize) {
+    if (style == null) return null;
+    final size = style.fontSize ?? defaultSize;
+    return style.copyWith(fontSize: size * factor);
+  }
 
-    titleLarge: baseTextTheme.titleLarge?.copyWith(
-      fontFamily: validDisplayFont,
-    ),
-    titleMedium: baseTextTheme.titleMedium?.copyWith(
-      fontFamily: validDisplayFont,
-    ),
-    titleSmall: baseTextTheme.titleSmall?.copyWith(
-      fontFamily: validDisplayFont,
-    ),
-
-    bodyLarge: baseTextTheme.bodyLarge?.copyWith(fontFamily: validBodyFont),
-    bodyMedium: baseTextTheme.bodyMedium?.copyWith(fontFamily: validBodyFont),
-    bodySmall: baseTextTheme.bodySmall?.copyWith(fontFamily: validBodyFont),
-
-    labelLarge: baseTextTheme.labelLarge?.copyWith(fontFamily: validBodyFont),
-    labelMedium: baseTextTheme.labelMedium?.copyWith(fontFamily: validBodyFont),
-    labelSmall: baseTextTheme.labelSmall?.copyWith(fontFamily: validBodyFont),
+  return TextTheme(
+    displayLarge: scale(baseTextTheme.displayLarge?.copyWith(fontFamily: validDisplayFont), 57),
+    displayMedium: scale(baseTextTheme.displayMedium?.copyWith(fontFamily: validDisplayFont), 45),
+    displaySmall: scale(baseTextTheme.displaySmall?.copyWith(fontFamily: validDisplayFont), 36),
+    
+    headlineLarge: scale(baseTextTheme.headlineLarge?.copyWith(fontFamily: validDisplayFont), 32),
+    headlineMedium: scale(baseTextTheme.headlineMedium?.copyWith(fontFamily: validDisplayFont), 28),
+    headlineSmall: scale(baseTextTheme.headlineSmall?.copyWith(fontFamily: validDisplayFont), 24),
+    
+    titleLarge: scale(baseTextTheme.titleLarge?.copyWith(fontFamily: validDisplayFont), 22),
+    titleMedium: scale(baseTextTheme.titleMedium?.copyWith(fontFamily: validDisplayFont), 16),
+    titleSmall: scale(baseTextTheme.titleSmall?.copyWith(fontFamily: validDisplayFont), 14),
+    
+    bodyLarge: scale(baseTextTheme.bodyLarge?.copyWith(fontFamily: validBodyFont), 16),
+    bodyMedium: scale(baseTextTheme.bodyMedium?.copyWith(fontFamily: validBodyFont), 14),
+    bodySmall: scale(baseTextTheme.bodySmall?.copyWith(fontFamily: validBodyFont), 12),
+    
+    labelLarge: scale(baseTextTheme.labelLarge?.copyWith(fontFamily: validBodyFont), 14),
+    labelMedium: scale(baseTextTheme.labelMedium?.copyWith(fontFamily: validBodyFont), 12),
+    labelSmall: scale(baseTextTheme.labelSmall?.copyWith(fontFamily: validBodyFont), 11),
   );
-
-  return textTheme.apply(fontSizeFactor: getFontSizeFactor(fontSize));
 }

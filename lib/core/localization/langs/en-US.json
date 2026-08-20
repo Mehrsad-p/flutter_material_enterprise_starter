@@ -46,7 +46,11 @@
       "apply": "Confirm & Save",
       "presets": "Preset Colors",
       "color_wheel": "Color Wheel"
-    }
+    },
+    "font_size": "Font Size",
+    "font_size_small": "Small",
+    "font_size_medium": "Normal",
+    "font_size_large": "Large"
   },
   "dashboard": {
     "title": "Management Dashboard",

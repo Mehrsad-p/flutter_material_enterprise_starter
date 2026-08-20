@@ -5,6 +5,7 @@ import 'package:flutter_material_enterprise_starter/core/design_system/tokens/ap
 import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_spacing.dart';
 import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/theme/theme_preview_header.dart';
 import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/theme/theme_color_card.dart';
+import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/theme/font_size_toggle_card.dart';
 import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/theme/theme_preset_swatches_card.dart';
 import 'package:flutter_material_enterprise_starter/generated/locale_keys.g.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,7 +69,7 @@ class _ThemeColorPickerBodyState extends ConsumerState<ThemeColorPickerBody> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // ── 1. Gradient header showing current color ──────────
-            ThemePreviewHeader(color: _currentColor),
+            // ThemePreviewHeader(color: _currentColor),
 
             // ── 2. Color Wheel + Brightness slider ────────────────
             ThemeColorCard(
@@ -83,7 +84,10 @@ class _ThemeColorPickerBodyState extends ConsumerState<ThemeColorPickerBody> {
               onSelected: _onPresetSelected,
             ),
 
-            // ── 4. Confirm button ─────────────────────────────────
+            // ── 4. Font Size Settings ─────────────────────────────
+            const FontSizeToggleCard(),
+
+            // ── 5. Confirm button ─────────────────────────────────
             FilledButton.icon(
               style: FilledButton.styleFrom(
                 backgroundColor: _currentColor,
