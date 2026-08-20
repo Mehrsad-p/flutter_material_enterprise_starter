@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_material_enterprise_starter/core/design_system/theme/provider/theme_provider.dart';
 import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_radius.dart';
 import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_spacing.dart';
-import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/theme/theme_preview_header.dart';
 import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/theme/theme_color_card.dart';
 import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/theme/font_size_toggle_card.dart';
 import 'package:flutter_material_enterprise_starter/features/setting/presentation/widgets/theme/theme_preset_swatches_card.dart';
