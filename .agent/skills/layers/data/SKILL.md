@@ -1,6 +1,6 @@
 ---
 name: Data Layer Enforcer
-description: Enforces strict conventions for the data layer in this Flutter project. Covers Freezed DTOs, DataSource pattern (abstract interface + impl), mapper extensions, and repository implementation. The agent must follow these rules when creating or editing any file under `lib/features/*/data/`.
+description: Enforces strict conventions for the data layer in this Flutter project. Covers Freezed DTOs, DataSource pattern (abstract interface + impl in a single file), mapper extensions, and repository implementation. The agent must follow these rules when creating or editing any file under `lib/features/*/data/`.
 ---
 
 # Data Layer Conventions
@@ -16,7 +16,7 @@ Each feature's `data/` layer must follow this exact structure:
 ```
 lib/features/<feature>/data/
 ├── datasources/
-│   └── <feature>_datasource.dart          # abstract interface + impl
+│   └── <feature>_datasource.dart          # abstract interface + impl in same file
 ├── dto/
 │   └── <model>_dto.dart                   # @freezed DTO
 │   └── <model>_dto.freezed.dart           # generated — never edit
@@ -120,12 +120,14 @@ class AuthDataSourceImpl implements AuthDataSource {
 ### Rules
 
 - The `abstract interface class` and its `Impl` must be in the **same file**.
+- Separate DataSource files into Remote (making HTTP calls via DioClient) and Local (interacting with storage/cache) subclasses to satisfy the Single Responsibility Principle (SRP).
 - DataSources must **never** contain business logic.
 - DataSources return **DTOs** (`*Dto`), not domain entities.
 - DataSources are named `<Feature>DataSource` and `<Feature>DataSourceImpl`.
 - Remote datasources take `DioClient` as a constructor argument.
 - Local datasources take `SharedPreferences` or a cache store as needed.
 - All methods must be `async` and return `Future<T>`.
+- DataSources must NOT handle errors; they propagate raw exceptions upward.
 
 ---
 
@@ -184,18 +186,21 @@ class AuthRepositoryImpl implements AuthRepository {
 
 - Repository impl **never** accesses Dio directly — always via a DataSource.
 - Repository impl converts DTOs to entities using mapper extensions.
-- Error handling (try/catch) lives at the repository layer, not the datasource.
+- Error handling (try/catch) and Result mapping live at the repository layer, not the datasource. Run datasource methods inside `safeApiCall()` blocks.
 - Repository implementations are provided via Riverpod providers.
+- **Secure Token Storage**: Sensitive session credentials (such as access tokens, refresh tokens, auth keys) must be stored in secure storage (using Android Keystore and iOS Keychain wrappers) rather than plain-text shared preferences.
 
 ---
 
-## ⚙️ Code Generation
+## 🚫 Forbidden
 
-After modifying any `@freezed` DTO or Riverpod provider file, you **must** run:
+- **DataSources** ❌ MUST NOT return Domain Entities.
+- **Repository Implementations** ❌ MUST NOT access network clients (Dio) directly. All networking must be delegated to DataSources.
+- **Mappers** ❌ MUST NOT declare classes; they must be written strictly as Dart `extension` structures.
 
-```bash
-dart run build_runner build --delete-conflicting-outputs
-```
+---
 
-The `.vscode/tasks.json` has a keyboard shortcut for Riverpod generation (`Ctrl+Shift+B`).
-For Freezed, run the above command directly in the terminal.
+## ⚙️ Code Generation & Verification
+
+- Run code generation: `dart run build_runner build --delete-conflicting-outputs`.
+- Run static analysis: `flutter analyze`.

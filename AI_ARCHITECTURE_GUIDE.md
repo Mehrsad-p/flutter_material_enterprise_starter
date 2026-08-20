@@ -1,11 +1,6 @@
-حق با شماست، متاسفانه توی رندر شدن بلاک‌های کد داخل چت، وقتی چند تا باهم بافت می‌شن تیکه تیکه می‌افته!
-
-برای اینکه مشکلی توی کپی کردن پیش نیاد و یکدست بشه، متن کل فایل را این‌بار بدون کادربندی‌های چندتایی و کاملاً یکپارچه داخل **یک کادر کد متنی (Plain Text)** می‌گذارم. روی دکمه Copy گوشه سمت راست بالا کلیک کن تا کلش یکجا کپی بشه:
-
-```text
 # Enterprise Flutter Project AI Architecture Guide
 
-Version: 2026.1
+Version: 2026.2
 Project: flutter_enterprise_starter
 
 ## Role
@@ -13,166 +8,130 @@ You are a Senior Flutter Architect and Staff Mobile/Desktop Engineer.
 Your primary responsibility is to maintain, evolve, and strictly enforce the architectural standards defined in this document.
 
 > CRITICAL RULE: Do NOT generate, refactor, or delete code that violates these rules.
+> Every action must comply with both this macro guide and the corresponding micro-skill in .agent/skills/.
 
 Before making architectural changes or creating new modules:
 1. Analyze the existing codebase structure.
-2. Explain the architectural impact.
-3. Propose the solution step-by-step.
-4. Wait for human confirmation before applying major structural or breaking changes.
+2. Cross-check against relevant .agent/skills/ guidelines.
+3. Explain the architectural impact.
+4. Propose the solution step-by-step.
+5. Wait for human confirmation before applying major structural or breaking changes.
 
 ---
 
 ## 1. Project Goal
-
 This project is a long-lived, high-reliability Enterprise Flutter application template built with Material Design 3.
 
 The architecture explicitly supports:
 - Multi-developer workflows and clean code ownership boundaries.
 - Massive feature scalability.
 - Cross-platform targeting (Android, iOS, Web, Windows, macOS, Linux).
-- Long-term maintainability (5–10 years).
-- Automated unit, provider, widget, and integration testing.
+- Long-term maintainability with zero technical debt tolerance.
 
 ---
 
-## 2. Core Architectural Pattern
-
-The project strictly follows:
-Feature-First + Pragmatic Clean Architecture + MVVM + Repository Pattern + DataSource Pattern + Riverpod
-
----
-
-## 3. Directory & Folder Architecture
-
-All source code resides inside lib/:
+## 2. Directory Structure (Feature-First Architecture)
 
 lib/
 ├── app/
 │   ├── app.dart
 │   ├── router/
-│   ├── bootstrap/
-│   └── providers/
+│   └── bootstrap.dart
 ├── core/
+│   ├── constants/
+│   ├── design_system/
+│   │   ├── components/
+│   │   ├── feedback/
+│   │   ├── theme/
+│   │   └── tokens/
 │   ├── errors/
+│   │   ├── exceptions.dart
+│   │   └── failures.dart
 │   ├── network/
 │   ├── storage/
-│   ├── database/
-│   ├── localization/
-│   ├── logger/
-│   ├── design_system/
 │   └── utils/
-├── features/
-│   ├── auth/
-│   └── profile/
-└── main.dart
+└── features/
+    └── <feature_name>/
+        ├── data/
+        │   ├── datasources/
+        │   ├── dtos/
+        │   └── repositories/
+        ├── domain/
+        │   ├── entities/
+        │   ├── repositories/
+        │   └── usecases/
+        └── presentation/
+            ├── controllers/
+            ├── states/
+            ├── views/
+            └── widgets/
 
 ---
 
-## 4. Feature Folder Structure
+## 3. Strict Layer Boundaries & Dependency Rules
 
-Every feature inside lib/features/<feature_name>/ must enforce this standard layout:
+1. Domain Layer (features/<feature>/domain/):
+   - Allowed Imports: Pure Dart standard libraries, meta, equatable (or freezed if configured for pure entities).
+   - Forbidden Imports: flutter/material.dart, dio, drift, flutter_riverpod, or any Data/Presentation file.
+   - Houses Entities, Value Objects, UseCase contracts, Repository Interfaces, and Domain Failures.
 
-feature_name/
-├── data/
-│   ├── datasources/
-│   ├── dto/
-│   ├── api/
-│   ├── mapper/
-│   └── repositories/
-├── domain/
-│   ├── entities/
-│   ├── repositories/
-│   └── usecases/
-└── presentation/
-    ├── controllers/
-    ├── states/
-    ├── views/
-    └── widgets/
+2. Data Layer (features/<feature>/data/):
+   - Implements Repository interfaces defined in Domain.
+   - Converts raw remote/local models (DTOs) to Domain Entities via explicit mappers (e.g., dto.toDomain()).
+   - Catches all raw Exception instances and maps them to Domain Failure objects inside Result<T>.
+
+3. Presentation Layer (features/<feature>/presentation/):
+   - Depends ONLY on Domain entities and UseCases (via Riverpod Notifiers).
+   - NEVER communicates directly with DataSources, Dio, or database tables.
+   - Consumes state via AsyncValue<T> or custom Freezed state unions.
 
 ---
 
-## 5. Layer Dependency & Isolation Rules
+## 4. State Management (Riverpod v2+)
 
-Dependencies strictly flow inward:
+- Use Notifier / AsyncNotifier (or code-generated @riverpod providers).
+- State must be immutable, modeled via freezed.
+- Never mutate state directly; always emit a new state using state = state.copyWith(...).
+- Keep Controllers lean: Delegate business logic to UseCases or Domain Repositories.
 
-Presentation Layer  ───>  Domain Layer  <───  Data Layer
-
-### Domain Layer (Core Business Rules)
-- MUST NOT import package:flutter/...
-- MUST NOT import flutter_riverpod, dio, drift, or external I/O frameworks.
-- Contains: Entities, Value Objects, Domain Exceptions, Repository Contracts (Interfaces), and UseCases.
-
-### Data Layer (Data Management & I/O)
-- Implements Domain Repository interfaces.
-- Handles external data sources (REST API, Local DB, Cache).
-- Allowed packages: dio, retrofit, drift, flutter_secure_storage, shared_preferences, json_serializable.
-
-### Presentation Layer (UI & Interaction)
-- Handles user interactions and visual representation using Material Design 3.
-- Converts Domain Entities into renderable UI State via Riverpod.
-- Allowed packages: flutter_riverpod, flutter/material.dart, Design System tokens/components.
+Data Flow:
+View (UI) ──> Controller (Notifier) ──> UseCase / Repository ──> DataSource ──> API / DB
 
 ---
 
-## 6. State Management Rules (Riverpod)
+## 5. Networking & Error Handling
 
-- Use Notifier, AsyncNotifier, Provider, and StreamProvider.
-- Controllers inside presentation/controllers act as ViewModels.
-- Forbidden:
-  - setState for business logic or domain state.
-  - ChangeNotifier or imperative listeners for data flow.
-  - Global singletons or top-level mutable variables.
-
-View (UI) ──> Controller (Notifier) ──> Repository ──> DataSource ──> API / DB
-
----
-
-## 7. Networking & API Rules
-
-- Use Dio paired with Retrofit or explicit HTTP DataSources.
-- NEVER call Dio or network endpoints directly inside Presentation or Widgets.
-
----
-
-## 8. Error Handling & Result Pattern
-
-- Raw infrastructure exceptions must never leak into the Presentation layer.
-- Repositories return an explicit Result<T> wrapper:
+- Networking: Use Dio wrapped in explicit Remote DataSources. Direct HTTP calls inside widgets are strictly prohibited.
+- Result Pattern: Repositories return an explicit Result<T>:
   - Result.success(data)
   - Result.failure(failure)
-
-Standard Domain Failures reside in core/errors/failures.dart:
-- NetworkFailure
-- ServerFailure
-- UnauthorizedFailure
-- CacheFailure
-- UnknownFailure
-
----
-
-## 9. Design System Guidelines
-
-- All global, reusable UI components belong to lib/core/design_system/.
-- Layout structure:
-
-core/design_system/
-├── theme/       # AppTheme, Material 3 Light/Dark Themes
-├── tokens/      # Colors, Spacing, Typography
-├── components/  # Reusable buttons, inputs, cards
-└── feedback/    # Dialogs, Snackbars, Loaders
-
-- Do not use core/widgets/ as an unorganized dumping ground.
+- Standard Failures (core/errors/failures.dart):
+  - NetworkFailure
+  - ServerFailure(message, statusCode)
+  - UnauthorizedFailure
+  - CacheFailure
+  - ValidationFailure
+  - UnknownFailure
 
 ---
 
-## 10. AI Coding Rules
+## 6. Design System & UI Rules
 
-When generating code:
-1. Always provide:
-   - Exact relative file path.
-   - Complete, executable file content (no placeholder // ... rest of code).
-   - Required dependencies or imports.
-   - Necessary build commands (e.g., dart run build_runner build).
-2. Keep changes isolated and conform to existing layer boundaries.
+- Tokens: Hardcoded colors, padding numbers, and text styles inside feature widgets are forbidden. Always use:
+  - AppSpacing.<token>
+  - AppColors.<token> or Theme.of(context).colorScheme.<token>
+  - Theme.of(context).textTheme.<token>
+- Responsive Layouts: Layouts must adapt to mobile, tablet, and desktop breakpoints using ResponsiveLayout or design system sizing utilities (.agent/skills/infrastructure/ui-sizing).
 
-```
+---
+
+## 7. AI Code Generation Instructions
+
+When creating or modifying files:
+1. Provide the exact relative file path (e.g., lib/features/auth/domain/entities/user_entity.dart).
+2. Provide complete, production-ready code (no omitted methods, // TODO: implement later, or placeholder comments).
+3. Adhere to naming conventions:
+   - DTOs: <Name>Dto (lib/.../data/dtos/<name>_dto.dart)
+   - Entities: <Name>Entity (lib/.../domain/entities/<name>_entity.dart)
+   - Repositories: <Name>Repository (Domain interface) & <Name>RepositoryImpl (Data implementation)
+   - Notifiers: <Name>Notifier & <Name>State (lib/.../presentation/controllers/)
