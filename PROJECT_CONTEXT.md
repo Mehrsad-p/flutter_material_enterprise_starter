@@ -72,10 +72,12 @@ flutter gen-l10n
 ---
 
 ## 5. Architectural Highlights
-1. Material 3 Tokenization: Colors, typography, shapes, and spacing defined as immutable design tokens inside lib/core/design_system/tokens/.
+1. Material 3 Tokenization: Colors, typography, shapes, and spacing defined as immutable design tokens inside `lib/core/design_system/tokens/`.
 2. Adaptive Layouts: Support for dynamic screen sizes (Mobile, Tablet, Desktop NavigationRail/Sidebar) using M3 guidelines.
-3. Strict Result Pattern: Explicit error catching in DataSources with Domain Failure mapping (Result<T>).
-4. Zero Cross-Layer Leakage: Domain layer contains zero third-party I/O imports or database models.
+3. Strict Result Pattern & Data-Driven Failures: Explicit error catching in DataSources with pure data-driven Domain Failure objects (`Result<T>`). Zero UI or localization dependencies inside `lib/core/errors/failure.dart`.
+4. Pure AsyncNotifier Lifecycle: All async bootstrap controllers extend `AsyncNotifier<T>` with pure async `build()`. `Future.microtask` in synchronous `build()` is strictly forbidden.
+5. Fine-Grained Multi-Controller Structure: Dedicated 1:1 controllers grouped in subdirectories under `presentation/controllers/<sub_domain>/` with computed provider aggregation (`ref.watch(provider.select(...))`).
+6. Zero Cross-Layer Leakage: Domain layer contains zero third-party I/O imports or database models. Controllers contain zero `BuildContext` or navigation calls.
 
 
 ================================================================================
@@ -130,7 +132,7 @@ lib/
 │   │   └── tokens/
 │   ├── errors/
 │   │   ├── exceptions.dart
-│   │   └── failures.dart
+│   │   └── failure.dart
 │   ├── network/
 │   ├── storage/
 │   └── utils/
@@ -146,6 +148,7 @@ lib/
         │   └── usecases/
         └── presentation/
             ├── controllers/
+            │   └── <sub_domain>/
             ├── states/
             ├── views/
             └── widgets/
@@ -173,13 +176,34 @@ lib/
 
 ## 4. State Management (Riverpod v2+)
 
-- Use Notifier / AsyncNotifier (or code-generated @riverpod providers).
-- State must be immutable, modeled via freezed.
-- Never mutate state directly; always emit a new state using state = state.copyWith(...).
+- Use `Notifier` / `AsyncNotifier` (or code-generated `@riverpod` providers).
+- State must be immutable, modeled via Freezed or `AsyncValue<T>`.
+- Never mutate state directly; always emit a new state using `state = AsyncData(...)` or `state = state.copyWith(...)`.
 - Keep Controllers lean: Delegate business logic to UseCases or Domain Repositories.
 
 Data Flow:
 View (UI) ──> Controller (Notifier) ──> UseCase / Repository ──> DataSource ──> API / DB
+
+---
+
+## 4.1 Advanced Controller & Riverpod Lifecycle Invariants
+
+1. **Lifecycle Purity**:
+   - Synchronous `build()` methods MUST remain pure. Using `Future.microtask`, delayed tasks, or side-effects inside `build()` to trigger async work is **strictly forbidden**.
+   - All async bootstrap controllers MUST extend `AsyncNotifier<T>` with an asynchronous `build()` method (`FutureOr<T> build() async`).
+
+2. **Localization Boundaries**:
+   - Domain Failures (`lib/core/errors/failure.dart`) MUST NOT import localization packages (zero `.tr()` or `BuildContext` calls).
+   - Domain Failures store machine-readable error keys or codes (e.g. `'auth.invalid_credentials'`). Translation to user-facing strings occurs exclusively via Presentation layer extensions (`FailureMapperExtension`).
+
+3. **Fine-Grained & Multi-Controller Structure**:
+   - Enforce 1:1 Controller-to-State mapping. Monolithic multi-purpose controllers are prohibited.
+   - Complex multi-controller features must be grouped inside dedicated subdirectories under `presentation/controllers/<sub_domain>/` (e.g., `presentation/controllers/auth/login_controller.dart`).
+   - Aggregate multi-controller validation and state slices using pure Functional/Computed Providers (`ref.watch(provider.select(...))`).
+
+4. **Zero BuildContext in Controllers**:
+   - Controllers act as pure ViewModels without `BuildContext` or direct UI navigation triggers.
+   - Side-effects (Snackbars, Dialogs, Routing) must be observed reactively in the UI via `ref.listen` on controller states or event streams.
 
 ---
 
@@ -188,14 +212,11 @@ View (UI) ──> Controller (Notifier) ──> UseCase / Repository ──> Dat
 - Networking: Use Dio wrapped in explicit Remote DataSources. Direct HTTP calls inside widgets are strictly prohibited.
 - Result Pattern: Repositories return an explicit Result<T>:
   - Result.success(data)
-  - Result.failure(failure)
-- Standard Failures (core/errors/failures.dart):
-  - NetworkFailure
-  - ServerFailure(message, statusCode)
-  - UnauthorizedFailure
-  - CacheFailure
-  - ValidationFailure
-  - UnknownFailure
+  - Result.error(failure)
+- Standard Failures (core/errors/failure.dart):
+  - ServerFailure(customMessage, code, details)
+  - CacheFailure([customMessage])
+  - NetworkFailure / UnauthorizedFailure (Data-driven error codes)
 
 ---
 
