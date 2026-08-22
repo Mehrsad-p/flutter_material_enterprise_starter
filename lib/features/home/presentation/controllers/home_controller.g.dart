@@ -6,42 +6,6 @@ part of 'home_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$homeLocalDataSourceHash() =>
-    r'79133f7f936f8dfa4cd04bfe2531d106ff03854f';
-
-/// See also [homeLocalDataSource].
-@ProviderFor(homeLocalDataSource)
-final homeLocalDataSourceProvider =
-    AutoDisposeProvider<HomeLocalDataSource>.internal(
-      homeLocalDataSource,
-      name: r'homeLocalDataSourceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$homeLocalDataSourceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef HomeLocalDataSourceRef = AutoDisposeProviderRef<HomeLocalDataSource>;
-String _$homeRepositoryHash() => r'cda5aedc1e9a5324f453fb576f58762932f62c4b';
-
-/// See also [homeRepository].
-@ProviderFor(homeRepository)
-final homeRepositoryProvider = AutoDisposeProvider<HomeRepository>.internal(
-  homeRepository,
-  name: r'homeRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$homeRepositoryHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef HomeRepositoryRef = AutoDisposeProviderRef<HomeRepository>;
 String _$fetchHomeSummaryUseCaseHash() =>
     r'208c9f7249b4d719c3cae22a069c5002e93a19a5';
 

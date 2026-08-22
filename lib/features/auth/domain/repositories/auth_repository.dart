@@ -1,17 +1,20 @@
 import 'package:flutter_material_enterprise_starter/core/errors/result.dart';
-import 'package:flutter_material_enterprise_starter/features/auth/domain/entities/user.dart';
+import 'package:flutter_material_enterprise_starter/features/auth/domain/entities/user_entity.dart';
 
-/// Repository contract for Authentication logic.
+/// Abstract contract for authentication data operations.
 abstract interface class AuthRepository {
-  /// Signs in a user using credentials.
-  Future<Result<User>> login(String email, String password);
+  /// Authenticates a user using their email and password credentials.
+  Future<Result<UserEntity>> login(String email, String password);
 
-  /// Registers a new user.
-  Future<Result<User>> signup(String email, String password);
+  /// Registers a new user using their email and password credentials.
+  Future<Result<UserEntity>> signup(String email, String password);
 
-  /// Checks if a valid session exists in secure storage and restores the user.
-  Future<Result<User?>> restoreSession();
+  /// Renews the active user session tokens using the saved refresh token.
+  Future<Result<void>> refreshToken();
 
-  /// Logs out the user and clears all cached sessions.
+  /// Restores the authenticated user session from local storage if available.
+  Future<Result<UserEntity?>> restoreSession();
+
+  /// Logs out the active user, clearing local tokens and ending the session.
   Future<Result<void>> logout();
 }

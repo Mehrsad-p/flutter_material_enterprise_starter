@@ -8,8 +8,8 @@ abstract class UserDto with _$UserDto {
   const factory UserDto({
     required String id,
     required String email,
-    required String token,
-    String? refreshToken,
+    required String accessToken,
+    required String refreshToken,
   }) = _UserDto;
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>

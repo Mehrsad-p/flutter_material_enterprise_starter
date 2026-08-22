@@ -1,29 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_local_datasource.dart';
+part of 'login_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authLocalDataSourceHash() =>
-    r'50471c2ebb2bb9d6e944fc6e210ca252cc66cbda';
+String _$loginControllerHash() => r'b1216dc6db873999d9170d689b6bddd8d34ff918';
 
-/// See also [authLocalDataSource].
-@ProviderFor(authLocalDataSource)
-final authLocalDataSourceProvider =
-    AutoDisposeProvider<AuthLocalDataSource>.internal(
-      authLocalDataSource,
-      name: r'authLocalDataSourceProvider',
+/// See also [LoginController].
+@ProviderFor(LoginController)
+final loginControllerProvider =
+    AutoDisposeAsyncNotifierProvider<LoginController, void>.internal(
+      LoginController.new,
+      name: r'loginControllerProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$authLocalDataSourceHash,
+          : _$loginControllerHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef AuthLocalDataSourceRef = AutoDisposeProviderRef<AuthLocalDataSource>;
+typedef _$LoginController = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

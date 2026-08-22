@@ -1,4 +1,7 @@
 import 'package:flutter_material_enterprise_starter/features/launcher/data/dto/app_init_dto.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'launcher_local_datasource.g.dart';
 
 abstract interface class LauncherLocalDataSource {
   Future<bool> hasActiveSession();
@@ -24,3 +27,9 @@ class LauncherLocalDataSourceImpl implements LauncherLocalDataSource {
     return AppInitDto.fromJson(json);
   }
 }
+
+@riverpod
+LauncherLocalDataSource launcherLocalDataSource(LauncherLocalDataSourceRef ref) {
+  return const LauncherLocalDataSourceImpl();
+}
+

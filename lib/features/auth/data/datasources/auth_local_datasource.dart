@@ -3,39 +3,49 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_local_datasource.g.dart';
 
-/// Local data source managing secure session token storage.
 abstract interface class AuthLocalDataSource {
+  /// Saves the session tokens and user metadata.
   Future<void> saveSession({
     required String accessToken,
     required String refreshToken,
     required String userId,
-    required String email,
+    required String userEmail,
   });
+
+  /// Retrieves the active access token.
   Future<String?> getAccessToken();
+
+  /// Retrieves the active refresh token.
   Future<String?> getRefreshToken();
+
+  /// Retrieves the persisted user ID.
   Future<String?> getUserId();
-  Future<String?> getEmail();
+
+  /// Retrieves the persisted user email.
+  Future<String?> getUserEmail();
+
+  /// Clears all session and token data from local storage.
   Future<void> clearSession();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-  const AuthLocalDataSourceImpl(this._tokenStorage);
   final TokenStorage _tokenStorage;
+  const AuthLocalDataSourceImpl(this._tokenStorage);
 
-  static const String _userIdKey = 'userId';
-  static const String _emailKey = 'email';
+  static const String _userIdKey = 'auth_user_id';
+  static const String _userEmailKey = 'auth_user_email';
 
   @override
   Future<void> saveSession({
     required String accessToken,
     required String refreshToken,
     required String userId,
-    required String email,
+    required String userEmail,
   }) async {
     await _tokenStorage.saveAccessToken(accessToken);
     await _tokenStorage.saveRefreshToken(refreshToken);
     await _tokenStorage.write(key: _userIdKey, value: userId);
-    await _tokenStorage.write(key: _emailKey, value: email);
+    await _tokenStorage.write(key: _userEmailKey, value: userEmail);
   }
 
   @override
@@ -48,14 +58,19 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   Future<String?> getUserId() => _tokenStorage.read(key: _userIdKey);
 
   @override
-  Future<String?> getEmail() => _tokenStorage.read(key: _emailKey);
+  Future<String?> getUserEmail() => _tokenStorage.read(key: _userEmailKey);
 
   @override
-  Future<void> clearSession() => _tokenStorage.clearAll();
+  Future<void> clearSession() async {
+    await _tokenStorage.deleteAccessToken();
+    await _tokenStorage.deleteRefreshToken();
+    await _tokenStorage.delete(key: _userIdKey);
+    await _tokenStorage.delete(key: _userEmailKey);
+  }
 }
 
 @riverpod
 AuthLocalDataSource authLocalDataSource(AuthLocalDataSourceRef ref) {
-  final storage = ref.watch(tokenStorageProvider);
-  return AuthLocalDataSourceImpl(storage);
+  final tokenStorage = ref.watch(tokenStorageProvider);
+  return AuthLocalDataSourceImpl(tokenStorage);
 }

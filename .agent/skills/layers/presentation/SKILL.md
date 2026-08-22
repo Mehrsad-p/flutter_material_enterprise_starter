@@ -9,7 +9,7 @@ description: Rules for views, widgets, controllers, presentation states, and loc
 Regulates the structure, rendering logic, viewmodel integrations, localization boundaries, and reactive side-effect handling within the UI presentation layer.
 
 ## Scope
-All files under `lib/features/*/presentation/` and `lib/core/errors/failure_mapper.dart`.
+All files under `lib/features/*/presentation/` and presentation-side failure mapping extensions.
 
 ## Dependencies
 ### Required
@@ -30,19 +30,20 @@ All files under `lib/features/*/presentation/` and `lib/core/errors/failure_mapp
 
 2. **ViewModel (Controllers) & Zero BuildContext**:
    - Controllers act as pure ViewModels. They inherit from `@riverpod` `Notifier` or `AsyncNotifier`.
-   - Synchronous `build()` MUST remain pure. Async initialization MUST use `AsyncNotifier` with `async build()`. `Future.microtask` in `build()` is **forbidden**.
+   - Synchronous `build()` MUST remain pure. Async initialization MUST use `AsyncNotifier` with an `async build()` method returning `Future<T>`. `Future.microtask` in `build()` is **forbidden**.
    - Controllers MUST NOT receive or reference `BuildContext`, show Snackbars/Dialogs, or trigger direct routing calls.
 
-3. **Fine-Grained Multi-Controller Structure**:
-   - 1:1 Controller-to-State mapping.
-   - Organize complex feature controllers inside sub-directories: `lib/features/<feature>/presentation/controllers/<sub_domain>/`.
+3. **Co-location of Controller & State**:
+   - For all UI and feature generation tasks, controllers and their corresponding state models MUST be co-located in the same feature sub-directory: `lib/features/<feature>/presentation/controllers/<sub_domain>/`.
+   - To avoid visual clutter, every state file and its generated files (`.freezed.dart`, `.g.dart`) MUST live in a dedicated nested `state/` subdirectory inside that specific controller's folder (e.g., `login_controller.dart` next to `state/login_state.dart`).
+   - Flat standalone `presentation/states/` or flat `presentation/controllers/` folders are prohibited.
 
 4. **Localization Boundary & Failure Translation**:
    - Domain `Failure` models (`lib/core/errors/failure.dart`) contain pure data and error codes (zero `.tr()` or UI imports).
-   - Translation to localized UI strings occurs exclusively via a Presentation-layer `FailureMapperExtension`.
+   - Translation to localized UI strings occurs exclusively via a Presentation-layer `FailureMapperExtension` helper.
 
 5. **Reactive Side-Effects**:
-   - UI side-effects (Navigation, Snackbars, Toasts) are handled reactively inside the View `build()` using `ref.listen<AsyncValue<T>>`.
+   - UI side-effects (Navigation, Snackbars, Toasts) are handled reactively inside the View `build()` using `ref.listen<AsyncValue<T>>` or observing state properties.
 
 ---
 
@@ -80,7 +81,7 @@ extension FailureMapperExtension on Object {
 }
 ```
 
-### 2. View Side-Effect Handling (`auth_login_view.dart`)
+### 2. View Side-Effect Handling with Co-located Controllers (`auth_login_view.dart`)
 ```dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -93,9 +94,9 @@ class AuthLoginView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Reactive side-effect listener
+    // Reactive side-effect listener observing co-located login controller submission status
     ref.listen<AsyncValue<void>>(
-      loginControllerProvider,
+      loginControllerProvider.select((s) => s.submissionStatus),
       (previous, next) {
         next.whenOrNull(
           error: (error, _) {
@@ -114,11 +115,11 @@ class AuthLoginView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
-      body: loginState.isLoading
+      body: loginState.submissionStatus.isLoading
           ? const Center(child: CircularProgressIndicator())
           : Center(
               child: ElevatedButton(
-                onPressed: () => ref.read(loginControllerProvider.notifier).login('user@test.com', 'pass123'),
+                onPressed: () => ref.read(loginControllerProvider.notifier).submit(),
                 child: const Text('Sign In'),
               ),
             ),
@@ -133,12 +134,11 @@ class AuthLoginView extends ConsumerWidget {
 - **Localization in Domain/Failure** ❌ `lib/core/errors/failure.dart` MUST NOT import `easy_localization` or `.tr()`.
 - **BuildContext in Controllers** ❌ Controller methods MUST NOT take `BuildContext context` as a parameter.
 - **Future.microtask in build()** ❌ Controllers MUST NOT run `Future.microtask()` inside `build()`.
-- **Monolithic Controllers** ❌ Controllers MUST NOT manage multi-purpose unrelated states in one file.
+- **Monolithic Controllers & Out-of-Folder States** ❌ Controllers MUST NOT manage multi-purpose unrelated states, and state files MUST NOT reside in flat standalone directories outside their controller's nested `state/` sub-folder.
 
 ---
 
 ## Workflow & Verification
-1. Place failure mapping extensions under presentation/core layers.
+1. Place failure mapping extensions under presentation/core helper directories.
 2. Verify presentation controllers contain zero UI/localization packages.
 3. Run `flutter analyze` to ensure zero compilation or architecture violations.
-

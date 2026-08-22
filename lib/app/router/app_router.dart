@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_material_enterprise_starter/features/auth/auth.dart';
+
+import 'package:flutter_material_enterprise_starter/features/auth/domain/entities/user_entity.dart';
+import 'package:flutter_material_enterprise_starter/features/auth/presentation/presentation.dart';
 import 'package:flutter_material_enterprise_starter/features/home/home.dart';
 import 'package:flutter_material_enterprise_starter/features/launcher/launcher.dart';
 import 'package:flutter_material_enterprise_starter/features/setting/setting.dart';
@@ -14,12 +16,14 @@ part 'app_router.g.dart';
 /// Helper notifier to trigger GoRouter refresh whenever auth state changes.
 class RouterTransitionNotifier extends ChangeNotifier {
   RouterTransitionNotifier(Ref ref) {
-    ref.listen<AuthState>(
-      authControllerProvider,
-      (previous, next) {
+    ref.listen<AsyncValue<UserEntity?>>(authSessionControllerProvider, (
+      previous,
+      next,
+    ) {
+      if (previous?.value != next.value) {
         notifyListeners();
-      },
-    );
+      }
+    });
   }
 }
 
@@ -32,40 +36,35 @@ GoRouter appRouter(Ref ref) {
     debugLogDiagnostics: true,
     refreshListenable: listenable,
     redirect: (context, state) {
-      final authState = ref.read(authControllerProvider);
+      final authSession = ref.read(authSessionControllerProvider);
 
       // Do not redirect while the authentication state is initializing
-      final isInitializing = authState.maybeWhen(
-        initial: () => true,
-        loading: () => true,
-        orElse: () => false,
-      );
-      if (isInitializing) {
+      if (authSession.isLoading) {
         return null;
       }
 
-      final isLoggingIn = state.matchedLocation == AppRoutes.auth ||
+      final user = authSession.valueOrNull;
+      final isAuthenticated = user != null;
+
+      final isLoggingIn =
+          state.matchedLocation == AppRoutes.auth ||
           state.matchedLocation == AppRoutes.login ||
           state.matchedLocation == AppRoutes.register;
 
-      return authState.maybeWhen(
-        authenticated: (_) {
-          if (isLoggingIn || state.matchedLocation == AppRoutes.initial) {
-            return AppRoutes.home;
-          }
-          return null;
-        },
-        unauthenticated: () {
-          if (state.matchedLocation == AppRoutes.auth) {
-            return AppRoutes.login;
-          }
-          if (!isLoggingIn && state.matchedLocation != AppRoutes.initial) {
-            return AppRoutes.login;
-          }
-          return null;
-        },
-        orElse: () => null,
-      );
+      if (isAuthenticated) {
+        if (isLoggingIn || state.matchedLocation == AppRoutes.initial) {
+          return AppRoutes.home;
+        }
+        return null;
+      } else {
+        if (state.matchedLocation == AppRoutes.auth) {
+          return AppRoutes.login;
+        }
+        if (!isLoggingIn && state.matchedLocation != AppRoutes.initial) {
+          return AppRoutes.login;
+        }
+        return null;
+      }
     },
     routes: [
       GoRoute(
@@ -83,18 +82,22 @@ GoRouter appRouter(Ref ref) {
             path: AppRoutes.login,
             name: AppRoutes.login,
             pageBuilder: (context, state) => NoTransitionPage(
-              child: LoginView(onToggleView: () {
-                context.go(AppRoutes.register);
-              }),
+              child: LoginView(
+                onToggleView: () {
+                  context.go(AppRoutes.register);
+                },
+              ),
             ),
           ),
           GoRoute(
             path: AppRoutes.register,
             name: AppRoutes.register,
             pageBuilder: (context, state) => NoTransitionPage(
-              child: RegisterView(onToggleView: () {
-                context.go(AppRoutes.login);
-              }),
+              child: RegisterView(
+                onToggleView: () {
+                  context.go(AppRoutes.login);
+                },
+              ),
             ),
           ),
         ],

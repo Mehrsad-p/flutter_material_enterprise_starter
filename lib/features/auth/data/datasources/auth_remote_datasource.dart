@@ -5,65 +5,47 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_remote_datasource.g.dart';
 
-/// Remote data source handling authentication requests via REST API.
 abstract interface class AuthRemoteDataSource {
+  /// Authenticates user credentials via API.
   Future<UserDto> login(String email, String password);
+
+  /// Registers user credentials via API.
   Future<UserDto> signup(String email, String password);
+
+  /// Requests a token refresh using the stored refresh token.
+  Future<UserDto> refreshToken(String refreshToken);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  const AuthRemoteDataSourceImpl(this._dio);
-  // ignore: unused_field
   final Dio _dio;
+  const AuthRemoteDataSourceImpl(this._dio);
 
   @override
   Future<UserDto> login(String email, String password) async {
-    // In a real project, we make the actual network request:
-    // final response = await _dio.post('/auth/login', data: {'email': email, 'password': password});
-    // return UserDto.fromJson(response.data as Map<String, dynamic>);
-
-    await Future.delayed(const Duration(milliseconds: 800));
-    if (email == 'error@example.com') {
-      throw DioException(
-        requestOptions: RequestOptions(path: '/auth/login'),
-        response: Response(
-          requestOptions: RequestOptions(path: '/auth/login'),
-          statusCode: 400,
-          data: {'message': 'auth/invalid-credentials'},
-        ),
-      );
-    }
-    return UserDto(
-      id: 'mock-user-123',
-      email: email,
-      token: 'mock-access-token-xyz',
-      refreshToken: 'mock-refresh-token-abc',
+    final response = await _dio.post(
+      '/auth/login',
+      data: {'email': email, 'password': password},
     );
+    return UserDto.fromJson(response.data as Map<String, dynamic>);
   }
 
   @override
   Future<UserDto> signup(String email, String password) async {
-    // In a real project, we make the actual network request:
-    // final response = await _dio.post('/auth/register', data: {'email': email, 'password': password});
-    // return UserDto.fromJson(response.data as Map<String, dynamic>);
-
-    await Future.delayed(const Duration(milliseconds: 900));
-    if (email == 'existing@example.com') {
-      throw DioException(
-        requestOptions: RequestOptions(path: '/auth/register'),
-        response: Response(
-          requestOptions: RequestOptions(path: '/auth/register'),
-          statusCode: 400,
-          data: {'message': 'auth/email-already-in-use'},
-        ),
-      );
-    }
-    return UserDto(
-      id: 'mock-user-123',
-      email: email,
-      token: 'mock-access-token-xyz',
-      refreshToken: 'mock-refresh-token-abc',
+    final response = await _dio.post(
+      '/auth/register',
+      data: {'email': email, 'password': password},
     );
+    return UserDto.fromJson(response.data as Map<String, dynamic>);
+  }
+
+  @override
+  Future<UserDto> refreshToken(String refreshToken) async {
+    final response = await _dio.post(
+      '/auth/refresh',
+      data: {'refreshToken': refreshToken},
+      options: Options(extra: {'isRefresh': true}),
+    );
+    return UserDto.fromJson(response.data as Map<String, dynamic>);
   }
 }
 

@@ -3,6 +3,9 @@ import 'package:flutter_material_enterprise_starter/features/home/data/datasourc
 import 'package:flutter_material_enterprise_starter/features/home/data/mapper/home_mapper.dart';
 import 'package:flutter_material_enterprise_starter/features/home/domain/entities/home_summary.dart';
 import 'package:flutter_material_enterprise_starter/features/home/domain/repositories/home_repository.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'home_repository_impl.g.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
   final HomeLocalDataSource _localDataSource;
@@ -19,3 +22,10 @@ class HomeRepositoryImpl implements HomeRepository {
     );
   }
 }
+
+@riverpod
+HomeRepository homeRepository(HomeRepositoryRef ref) {
+  final dataSource = ref.watch(homeLocalDataSourceProvider);
+  return HomeRepositoryImpl(dataSource);
+}
+

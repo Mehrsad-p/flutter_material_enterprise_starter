@@ -62,7 +62,12 @@ lib/
         │   └── usecases/
         └── presentation/
             ├── controllers/
-            ├── states/
+            │   └── <feature_subfolder>/
+            │       ├── <feature_subfolder>_controller.dart
+            │       └── state/
+            │           ├── <feature_subfolder>_state.dart
+            │           ├── <feature_subfolder>_state.freezed.dart
+            │           └── <feature_subfolder>_state.g.dart
             ├── views/
             └── widgets/
 
@@ -101,20 +106,25 @@ View (UI) ──> Controller (Notifier) ──> UseCase / Repository ──> Dat
 
 ## 4.1 Advanced Controller & Riverpod Lifecycle Invariants
 
-1. **Lifecycle Purity**:
+1. **Co-location of Controller & State**:
+   - Standalone `presentation/states/` flat directories are strictly forbidden.
+   - Controllers and their corresponding Freezed state models MUST be co-located in dedicated sub-folders.
+   - To avoid visual clutter, the state file and its generated files (`.freezed.dart`, `.g.dart`) MUST reside in a dedicated `state/` subdirectory inside that specific controller's folder. For example: `presentation/controllers/login/login_controller.dart` and `presentation/controllers/login/state/login_state.dart`.
+
+2. **Lifecycle Purity**:
    - Synchronous `build()` methods MUST remain pure. Using `Future.microtask`, delayed tasks, or side-effects inside `build()` to trigger async work is **strictly forbidden**.
-   - All async bootstrap controllers MUST extend `AsyncNotifier<T>` with an asynchronous `build()` method (`FutureOr<T> build() async`).
+   - All async bootstrap controllers MUST extend `AsyncNotifier<T>` with an asynchronous `build()` method (`Future<T> build() async`).
 
-2. **Localization Boundaries**:
+3. **Localization Boundaries**:
    - Domain Failures (`lib/core/errors/failure.dart`) MUST NOT import localization packages (zero `.tr()` or `BuildContext` calls).
-   - Domain Failures store machine-readable error keys or codes (e.g. `'auth.invalid_credentials'`). Translation to user-facing strings occurs exclusively via Presentation layer extensions (`FailureMapperExtension`).
+   - Domain Failures store machine-readable error keys or codes (e.g., `'auth.invalid_credentials'`). Translation to user-facing strings occurs exclusively via Presentation-layer Extensions (`FailureMapperExtension`).
 
-3. **Fine-Grained & Multi-Controller Structure**:
+4. **Fine-Grained & Multi-Controller Structure**:
    - Enforce 1:1 Controller-to-State mapping. Monolithic multi-purpose controllers are prohibited.
    - Complex multi-controller features must be grouped inside dedicated subdirectories under `presentation/controllers/<sub_domain>/` (e.g., `presentation/controllers/auth/login_controller.dart`).
    - Aggregate multi-controller validation and state slices using pure Functional/Computed Providers (`ref.watch(provider.select(...))`).
 
-4. **Zero BuildContext in Controllers**:
+5. **Zero BuildContext in Controllers**:
    - Controllers act as pure ViewModels without `BuildContext` or direct UI navigation triggers.
    - Side-effects (Snackbars, Dialogs, Routing) must be observed reactively in the UI via `ref.listen` on controller states or event streams.
 

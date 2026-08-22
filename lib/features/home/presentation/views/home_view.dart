@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_spacing.dart';
 import 'package:flutter_material_enterprise_starter/core/design_system/tokens/app_radius.dart';
 import 'package:flutter_material_enterprise_starter/generated/locale_keys.g.dart';
-import 'package:flutter_material_enterprise_starter/features/auth/auth.dart';
+import 'package:flutter_material_enterprise_starter/features/auth/presentation/presentation.dart';
 import 'package:flutter_material_enterprise_starter/features/home/presentation/controllers/home_controller.dart';
 import 'package:flutter_material_enterprise_starter/features/home/presentation/states/home_state.dart';
 import 'package:flutter_material_enterprise_starter/features/home/presentation/widgets/home_card_widget.dart';
@@ -77,7 +77,7 @@ class HomeView extends ConsumerWidget {
                 title: Text(LocaleKeys.auth_logout_btn.tr()),
                 onTap: () {
                   Navigator.pop(context);
-                  ref.read(authControllerProvider.notifier).logout();
+                  ref.read(authSessionControllerProvider.notifier).logout();
                 },
               ),
             ],

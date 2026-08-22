@@ -6,45 +6,6 @@ part of 'launcher_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$launcherLocalDataSourceHash() =>
-    r'52545032764a08adf27bdb491d92a42cd8b7ea5a';
-
-/// See also [launcherLocalDataSource].
-@ProviderFor(launcherLocalDataSource)
-final launcherLocalDataSourceProvider =
-    AutoDisposeProvider<LauncherLocalDataSource>.internal(
-      launcherLocalDataSource,
-      name: r'launcherLocalDataSourceProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$launcherLocalDataSourceHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef LauncherLocalDataSourceRef =
-    AutoDisposeProviderRef<LauncherLocalDataSource>;
-String _$launcherRepositoryHash() =>
-    r'0aeb33520d1b44cc62914531b146369cebdfdf58';
-
-/// See also [launcherRepository].
-@ProviderFor(launcherRepository)
-final launcherRepositoryProvider =
-    AutoDisposeProvider<LauncherRepository>.internal(
-      launcherRepository,
-      name: r'launcherRepositoryProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$launcherRepositoryHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-@Deprecated('Will be removed in 3.0. Use Ref instead')
-// ignore: unused_element
-typedef LauncherRepositoryRef = AutoDisposeProviderRef<LauncherRepository>;
 String _$initializeAppUseCaseHash() =>
     r'c615fc7fb18913d2feef9865c16cda71264a18ed';
 

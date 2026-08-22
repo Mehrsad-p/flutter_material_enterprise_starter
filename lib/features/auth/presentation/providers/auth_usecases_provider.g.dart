@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_controller.dart';
+part of 'auth_usecases_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -23,23 +23,42 @@ final loginUseCaseProvider = AutoDisposeProvider<LoginUseCase>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef LoginUseCaseRef = AutoDisposeProviderRef<LoginUseCase>;
-String _$signUpUseCaseHash() => r'b2188e6ebc5768bdc0263e124fa9471659f2908e';
+String _$signupUseCaseHash() => r'6210edf920b68aa6f7bacdb21ac1038512f13442';
 
-/// See also [signUpUseCase].
-@ProviderFor(signUpUseCase)
-final signUpUseCaseProvider = AutoDisposeProvider<SignUpUseCase>.internal(
-  signUpUseCase,
-  name: r'signUpUseCaseProvider',
+/// See also [signupUseCase].
+@ProviderFor(signupUseCase)
+final signupUseCaseProvider = AutoDisposeProvider<SignupUseCase>.internal(
+  signupUseCase,
+  name: r'signupUseCaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$signUpUseCaseHash,
+      : _$signupUseCaseHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef SignUpUseCaseRef = AutoDisposeProviderRef<SignUpUseCase>;
+typedef SignupUseCaseRef = AutoDisposeProviderRef<SignupUseCase>;
+String _$refreshTokenUseCaseHash() =>
+    r'48ef56919375fb9bbfb85ea4a69d86248b4e0ee9';
+
+/// See also [refreshTokenUseCase].
+@ProviderFor(refreshTokenUseCase)
+final refreshTokenUseCaseProvider =
+    AutoDisposeProvider<RefreshTokenUseCase>.internal(
+      refreshTokenUseCase,
+      name: r'refreshTokenUseCaseProvider',
+      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+          ? null
+          : _$refreshTokenUseCaseHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef RefreshTokenUseCaseRef = AutoDisposeProviderRef<RefreshTokenUseCase>;
 String _$restoreSessionUseCaseHash() =>
     r'c72693614af5a9bc5e7c92e420e0883c86129889';
 
@@ -77,21 +96,5 @@ final logoutUseCaseProvider = AutoDisposeProvider<LogoutUseCase>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef LogoutUseCaseRef = AutoDisposeProviderRef<LogoutUseCase>;
-String _$authControllerHash() => r'58eb6ccb0b9a3984457c049940e331d5a5d38110';
-
-/// See also [AuthController].
-@ProviderFor(AuthController)
-final authControllerProvider =
-    AutoDisposeNotifierProvider<AuthController, AuthState>.internal(
-      AuthController.new,
-      name: r'authControllerProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$authControllerHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
-
-typedef _$AuthController = AutoDisposeNotifier<AuthState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
