@@ -8,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_material_enterprise_starter/app/router/app_router.dart';
 import 'package:flutter_material_enterprise_starter/core/design_system/theme/app_theme.dart';
 
+import 'package:flutter_material_enterprise_starter/core/feedback/presentation/views/global_feedback_listener.dart';
+
 class App extends ConsumerWidget {
   const App({super.key});
 
@@ -37,6 +39,12 @@ class App extends ConsumerWidget {
         fontSize: themeState.fontSize,
       ),
       themeMode: themeState.themeMode,
+
+      builder: (context, child) {
+        return GlobalFeedbackListener(
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
 
       routerConfig: router,
     );
