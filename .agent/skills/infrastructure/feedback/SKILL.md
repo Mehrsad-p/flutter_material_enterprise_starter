@@ -27,12 +27,13 @@ All Riverpod controllers, notifiers, repositories, views, and widgets located un
    - Controllers, Notifiers, and ViewModels MUST NOT receive or reference `BuildContext`.
    - Direct calls to `ScaffoldMessenger.of(context)`, `showDialog()`, or `MaterialBanner` inside controllers are **strictly forbidden**.
 
-2. **Domain Failure Dispatching (`showFailure`)**:
-   - When a UseCase or Repository operation returns a `Result.error(failure)`, controllers dispatch the error via `AppFeedbackController`:
+2. **Convenient 1-Line Failure Dispatching (`result.showFailureOnError(ref)`)**:
+   - When a UseCase returns a `Result<T>`, controllers use the `showFailureOnError(ref)` extension method for clean 1-line error dispatching:
      ```dart
-     ref.read(appFeedbackControllerProvider.notifier).showFailure(failure);
+     final result = await useCase.execute(...);
+     result.showFailureOnError(ref);
      ```
-   - This wraps the pure `Failure` model in an `AppNotification` of type `error` without triggering immediate UI side-effects.
+   - Alternatively, call `ref.read(appFeedbackControllerProvider.notifier).showFailure(failure)` directly on a `Failure` instance.
 
 3. **Custom Notification Dispatching (`showNotification`)**:
    - For success toasts, info messages, warnings, or action alerts, construct an `AppNotification` and dispatch it via the controller:
@@ -58,6 +59,7 @@ All Riverpod controllers, notifiers, repositories, views, and widgets located un
 
 ### 1. Handling Failures in Controllers (`login_controller.dart`)
 ```dart
+import 'package:flutter_material_enterprise_starter/core/errors/result.dart';
 import 'package:flutter_material_enterprise_starter/core/feedback/feedback.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/presentation/providers/auth_usecases_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -74,24 +76,26 @@ class LoginController extends _$LoginController {
     final useCase = ref.read(loginUseCaseProvider);
     final result = await useCase.execute(email, password);
 
-    result.when(
-      success: (user) {
-        state = const AsyncValue.data(null);
-        // Dispatch success feedback globally
-        ref.read(appFeedbackControllerProvider.notifier).showNotification(
-              AppNotification(
-                id: DateTime.now().microsecondsSinceEpoch.toString(),
-                type: AppNotificationType.success,
-                message: 'Welcome back!',
-              ),
-            );
-      },
-      error: (failure) {
-        state = AsyncValue.error(failure, StackTrace.current);
-        // Dispatch failure to global feedback queue
-        ref.read(appFeedbackControllerProvider.notifier).showFailure(failure);
-      },
-    );
+    // 1-line global error dispatching helper
+    result.showFailureOnError(ref);
+
+    if (result is Success) {
+      final user = (result as Success).data;
+      state = const AsyncValue.data(null);
+      ref.read(authSessionControllerProvider.notifier).updateSession(user);
+      ref.read(appFeedbackControllerProvider.notifier).showNotification(
+            AppNotification(
+              id: DateTime.now().microsecondsSinceEpoch.toString(),
+              type: AppNotificationType.success,
+              message: 'Welcome back!',
+            ),
+          );
+    } else if (result is ErrorResult) {
+      state = AsyncValue.error(
+        (result as ErrorResult).failure,
+        StackTrace.current,
+      );
+    }
   }
 }
 ```
@@ -126,6 +130,6 @@ void triggerBackup(WidgetRef ref) {
 ---
 
 ## Workflow & Verification
-1. Dispatch all errors and messages via `ref.read(appFeedbackControllerProvider.notifier)`.
+1. Use `result.showFailureOnError(ref)` or `ref.read(appFeedbackControllerProvider.notifier)` to dispatch errors and messages.
 2. Ensure `GlobalFeedbackListener` is present in `App` router builder.
 3. Run `flutter analyze` to verify clean layer separation.

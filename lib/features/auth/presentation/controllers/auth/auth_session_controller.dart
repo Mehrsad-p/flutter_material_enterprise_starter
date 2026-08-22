@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_material_enterprise_starter/core/errors/result.dart';
+import 'package:flutter_material_enterprise_starter/core/feedback/feedback.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/domain/domain.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/presentation/providers/auth_usecases_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -12,7 +13,10 @@ class AuthSessionController extends _$AuthSessionController {
   Future<UserEntity?> build() async {
     final useCase = ref.watch(restoreSessionUseCaseProvider);
     final result = await useCase.execute();
-    return result.when(success: (user) => user, error: (_) => null);
+    return result.when(
+      success: (user) => user,
+      error: (_) => null,
+    );
   }
 
   /// Sets/updates the session state directly.
@@ -26,9 +30,15 @@ class AuthSessionController extends _$AuthSessionController {
     final useCase = ref.read(logoutUseCaseProvider);
     final result = await useCase.execute();
 
-    state = result.when(
-      success: (_) => const AsyncValue.data(null),
-      error: (failure) => AsyncValue.error(failure, StackTrace.current),
-    );
+    result.showFailureOnError(ref);
+
+    if (result is Success) {
+      state = const AsyncValue.data(null);
+    } else if (result is ErrorResult) {
+      state = AsyncValue.error(
+        (result as ErrorResult).failure,
+        StackTrace.current,
+      );
+    }
   }
 }
