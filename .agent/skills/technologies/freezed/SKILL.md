@@ -24,6 +24,7 @@ All models that represent network payloads, database schemas, or cache payloads 
 *   **Requirements**:
     *   Must define a `factory Name.fromJson(Map<String, dynamic> json) => _$NameFromJson(json);`.
     *   Must have both `part '<file_name>.freezed.dart';` and `part '<file_name>.g.dart';` directives.
+    *   **Nullability Rule**: All DTO properties/fields must be nullable (e.g., `String?`).
 *   **Why**: Guarantees immutability and generates boilerplates for serialization automatically.
 
 ### B. Controller/Presentation States
@@ -42,6 +43,7 @@ Any core model representing alternative outcomes (such as `Result<T>` and `Failu
 
 ### A. Domain Entities
 Domain entities (located under `lib/features/<feature>/domain/entities/`) must **NEVER** use Freezed. They must be written as vanilla, standard Dart classes.
+*   **Nullability Rule**: All properties/fields of Domain Entities must be nullable (e.g., `String?`).
 *   **Why**: The Domain layer must be pure and independent of third-party libraries and generated code. This keeps the core business rules stable and decoupled.
 
 ### B. Abstract Interface Classes

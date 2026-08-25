@@ -31,9 +31,11 @@ lib/features/[feature_name]/
 1. **Domain Layer (Core Business Rules):**
    - MUST be Pure Dart. Zero dependencies on `flutter/material.dart` or `flutter_riverpod`.
    - Use a `Result<T>` wrapper for all Repository and optional UseCase return types.
+   - **All Domain Entity fields must be nullable** (e.g. `String?`).
 
 2. **Data Layer:**
    - DTO models must include `fromJson` and `toJson` methods using `@JsonSerializable`.
+   - **All DTO model fields must be nullable** (e.g. `String?`).
    - DataSources throw exceptions. Repositories catch these exceptions and map them to Domain Failures.
    - Include Riverpod `Provider` definitions for DataSources and Repositories.
 
