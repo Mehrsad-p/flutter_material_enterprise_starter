@@ -36,7 +36,7 @@ class AuthSessionController extends _$AuthSessionController {
       state = const AsyncValue.data(null);
     } else if (result is ErrorResult) {
       state = AsyncValue.error(
-        (result as ErrorResult).failure,
+        result.failure,
         StackTrace.current,
       );
     }

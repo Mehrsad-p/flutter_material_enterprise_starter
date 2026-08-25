@@ -19,6 +19,7 @@ dependencies:
   flutter_colorpicker: ^1.1.0
   easy_localization: ^3.0.8
   dio: ^5.7.0
+  retrofit: 4.6.0
   logger: ^2.4.0
   dio_cache_interceptor: ^3.5.0
   shared_preferences: ^2.2.0
@@ -29,6 +30,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   riverpod_generator: ^2.6.3
+  retrofit_generator: ^9.7.0
   flutter_lints: ^6.0.0
   build_runner: ^2.5.4
   json_serializable: ^6.9.5

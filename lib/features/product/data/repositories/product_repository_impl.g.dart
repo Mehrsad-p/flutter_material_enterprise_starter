@@ -1,27 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_session_controller.dart';
+part of 'product_repository_impl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$authSessionControllerHash() =>
-    r'eaeb7fae0fb3b81b6eeac9edbfd08e14163da57f';
+String _$productRepositoryHash() => r'0b3c9a2d38de87936c911351364ee4a90c1b3542';
 
-/// See also [AuthSessionController].
-@ProviderFor(AuthSessionController)
-final authSessionControllerProvider =
-    AsyncNotifierProvider<AuthSessionController, UserEntity?>.internal(
-      AuthSessionController.new,
-      name: r'authSessionControllerProvider',
+/// See also [productRepository].
+@ProviderFor(productRepository)
+final productRepositoryProvider =
+    AutoDisposeProvider<ProductRepository>.internal(
+      productRepository,
+      name: r'productRepositoryProvider',
       debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
           ? null
-          : _$authSessionControllerHash,
+          : _$productRepositoryHash,
       dependencies: null,
       allTransitiveDependencies: null,
     );
 
-typedef _$AuthSessionController = AsyncNotifier<UserEntity?>;
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ProductRepositoryRef = AutoDisposeProviderRef<ProductRepository>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

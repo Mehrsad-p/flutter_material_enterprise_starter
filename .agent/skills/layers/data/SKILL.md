@@ -83,50 +83,50 @@ class UserDto {
 
 DataSources handle raw network/local I/O. They return DTOs, not domain entities.
 
-### Pattern
+### Pattern (Using Retrofit for Network Calls)
 
 ```dart
 // lib/features/auth/data/datasources/auth_datasource.dart
 
-abstract interface class AuthDataSource {
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_material_enterprise_starter/core/network/dio_client.dart';
+import 'package:flutter_material_enterprise_starter/features/auth/data/dto/user_dto.dart';
+import 'package:flutter_material_enterprise_starter/features/auth/data/datasources/auth_api.dart';
+
+part 'auth_datasource.g.dart';
+
+abstract interface class AuthRemoteDataSource {
   Future<UserDto> login(String email, String password);
-  Future<UserDto> signUp(String email, String password);
 }
 
-class AuthDataSourceImpl implements AuthDataSource {
-  const AuthDataSourceImpl(this._client);
-  final DioClient _client;
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  final AuthApi _api;
+  const AuthRemoteDataSourceImpl(this._api);
 
   @override
-  Future<UserDto> login(String email, String password) async {
-    final response = await _client.dio.post(
-      '/auth/login',
-      data: {'email': email, 'password': password},
-    );
-    return UserDto.fromJson(response.data as Map<String, dynamic>);
+  Future<UserDto> login(String email, String password) {
+    // Delegating HTTP calls to the Retrofit API client
+    return _api.login(LoginRequestDto(email: email, password: password));
   }
+}
 
-  @override
-  Future<UserDto> signUp(String email, String password) async {
-    final response = await _client.dio.post(
-      '/auth/register',
-      data: {'email': email, 'password': password},
-    );
-    return UserDto.fromJson(response.data as Map<String, dynamic>);
-  }
+@riverpod
+AuthRemoteDataSource authRemoteDataSource(AuthRemoteDataSourceRef ref) {
+  final dio = ref.watch(dioProvider);
+  return AuthRemoteDataSourceImpl(AuthApi(dio));
 }
 ```
 
 ### Rules
 
-- The `abstract interface class` and its `Impl` must be in the **same file**.
-- Separate DataSource files into Remote (making HTTP calls via DioClient) and Local (interacting with storage/cache) subclasses to satisfy the Single Responsibility Principle (SRP).
+- The `abstract interface class` (e.g., `<Feature>RemoteDataSource`) and its `Impl` (e.g., `<Feature>RemoteDataSourceImpl`) must be in the **same file**.
+- Separate DataSource files into Remote (making HTTP calls via Retrofit API) and Local (interacting with database/storage/cache) subclasses to satisfy the Single Responsibility Principle (SRP).
 - DataSources must **never** contain business logic.
 - DataSources return **DTOs** (`*Dto`), not domain entities.
-- DataSources are named `<Feature>DataSource` and `<Feature>DataSourceImpl`.
-- Remote datasources take `DioClient` as a constructor argument.
-- Local datasources take `SharedPreferences` or a cache store as needed.
-- All methods must be `async` and return `Future<T>`.
+- DataSources are named `<Feature>RemoteDataSource` and `<Feature>RemoteDataSourceImpl`.
+- Remote datasources take their respective Retrofit client (e.g., `<Feature>Api`) as a constructor argument, rather than executing raw HTTP requests manually.
+- Local datasources take `SharedPreferences`, `Drift` database, or other local stores as needed.
+- All methods must return `Future<T>`.
 - DataSources must NOT handle errors; they propagate raw exceptions upward.
 
 ---

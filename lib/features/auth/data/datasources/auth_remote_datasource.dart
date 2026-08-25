@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_material_enterprise_starter/core/network/dio_client.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/data/dto/user_dto.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
