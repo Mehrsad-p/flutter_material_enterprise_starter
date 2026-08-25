@@ -63,9 +63,26 @@ abstract class  LocaleKeys {
   static const language_fa = 'language.fa';
   static const language_en = 'language.en';
   static const language = 'language';
+
+  // Success keys
+  static const success_login = 'success.login';
+  static const success_signup = 'success.signup';
+  static const success_logout = 'success.logout';
+  static const success_save = 'success.save';
+  static const success_delete = 'success.delete';
+  static const success_update = 'success.update';
+  static const success_operation = 'success.operation';
+  static const success = 'success';
+
+  // Error keys
   static const error_server = 'error.server';
   static const error_connection = 'error.connection';
   static const error_cache = 'error.cache';
+  static const error_unauthorized = 'error.unauthorized';
+  static const error_forbidden = 'error.forbidden';
+  static const error_not_found = 'error.not_found';
+  static const error_timeout = 'error.timeout';
+  static const error_unknown = 'error.unknown';
   static const error = 'error';
 
 }

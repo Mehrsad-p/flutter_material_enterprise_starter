@@ -41,9 +41,10 @@ All provider and controller files under `lib/` and unit test suites under `test/
    - Controllers act as pure ViewModels without `BuildContext` or navigation triggers.
    - UI side-effects (Snackbars, Dialogs, Navigation) are observed reactively in presentation views using `ref.listen`.
 
-6. **Decoupled DI Provider Location**:
+6. **Decoupled DI Provider Location & Optional UseCases**:
    - Data layer providers (DataSources, Repository implementations) live in `data/`.
-   - Controllers watch abstract domain interfaces (e.g. `AuthRepository`), never concrete implementation classes (`AuthRepositoryImpl`).
+   - Controllers watch abstract domain interfaces (e.g., `AuthRepository` or optional UseCases), never concrete implementation classes (`AuthRepositoryImpl`).
+   - UseCases are completely **optional**. For standard CRUD or API forwarding operations, controllers should call abstract Domain Repository interfaces directly to avoid boilerplate. UseCases should only be introduced when there is complex client-side orchestration, multi-step actions, offline synchronization, or logic shared across multiple controllers.
 
 ---
 

@@ -49,8 +49,46 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 }
 
+/// Simulated mock data source for development and testing.
+class MockAuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  const MockAuthRemoteDataSourceImpl();
+
+  @override
+  Future<UserDto> login(String email, String password) async {
+    await Future<void>.delayed(const Duration(milliseconds: 800));
+    return UserDto(
+      id: 'usr_${DateTime.now().millisecondsSinceEpoch}',
+      email: email.isNotEmpty ? email : 'demo@enterprise.com',
+      accessToken: 'mock_access_token_${DateTime.now().millisecondsSinceEpoch}',
+      refreshToken: 'mock_refresh_token_${DateTime.now().millisecondsSinceEpoch}',
+    );
+  }
+
+  @override
+  Future<UserDto> signup(String email, String password) async {
+    await Future<void>.delayed(const Duration(milliseconds: 800));
+    return UserDto(
+      id: 'usr_${DateTime.now().millisecondsSinceEpoch}',
+      email: email.isNotEmpty ? email : 'demo@enterprise.com',
+      accessToken: 'mock_access_token_${DateTime.now().millisecondsSinceEpoch}',
+      refreshToken: 'mock_refresh_token_${DateTime.now().millisecondsSinceEpoch}',
+    );
+  }
+
+  @override
+  Future<UserDto> refreshToken(String refreshToken) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    return UserDto(
+      id: 'usr_mock_session',
+      email: 'demo@enterprise.com',
+      accessToken: 'mock_refreshed_access_token_${DateTime.now().millisecondsSinceEpoch}',
+      refreshToken: refreshToken,
+    );
+  }
+}
+
 @riverpod
 AuthRemoteDataSource authRemoteDataSource(AuthRemoteDataSourceRef ref) {
-  final dioClient = ref.watch(dioProvider);
-  return AuthRemoteDataSourceImpl(dioClient);
+  // Return MockAuthRemoteDataSourceImpl for seamless development testing
+  return const MockAuthRemoteDataSourceImpl();
 }

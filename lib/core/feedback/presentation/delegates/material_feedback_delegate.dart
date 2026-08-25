@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_enterprise_starter/core/errors/failure_mapper.dart';
 import 'package:flutter_material_enterprise_starter/core/feedback/domain/entities/app_notification.dart';
@@ -11,7 +12,8 @@ class MaterialFeedbackDelegate extends FeedbackDelegate {
     if (notification.failure != null) {
       return notification.failure!.toLocalizedMessage(context);
     }
-    return notification.message ?? '';
+    final rawMessage = notification.message ?? '';
+    return rawMessage.tr();
   }
 
   @override
@@ -104,7 +106,7 @@ class MaterialFeedbackDelegate extends FeedbackDelegate {
         ),
         action: notification.actionLabel != null
             ? SnackBarAction(
-                label: notification.actionLabel!,
+                label: notification.actionLabel!.tr(),
                 textColor: textColor,
                 onPressed: () {
                   notification.onAction?.call();
@@ -145,7 +147,7 @@ class MaterialFeedbackDelegate extends FeedbackDelegate {
                   Navigator.of(dialogContext).pop();
                   notification.onAction?.call();
                 },
-                child: Text(notification.actionLabel!),
+                child: Text(notification.actionLabel!.tr()),
               ),
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(),

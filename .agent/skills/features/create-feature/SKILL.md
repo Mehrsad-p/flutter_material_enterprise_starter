@@ -40,7 +40,7 @@ Scaffolding functional features under `lib/features/`.
 1. **Scaffold Directory**:
    - Establish the standard directory structure defined in `_core/folder-structure`.
 2. **Layer Dependencies**:
-   - For all API actions, create Domain contracts (entities, usecases) before creating Data implementations (DTOs, DataSources).
+   - For all API actions, create Domain contracts (entities, repository interfaces, and optional usecases if required) before creating Data implementations (DTOs, DataSources).
 3. **Encapsulate Barrel Exports**:
    - Write layer-specific barrel files (`domain/domain.dart`, `data/data.dart`, `presentation/presentation.dart`) and the root feature barrel file.
 
@@ -50,7 +50,7 @@ Scaffolding functional features under `lib/features/`.
 ## Workflow
 1. Parse the feature name and requested specifications (endpoints, states, UI requirements).
 2. Resolve and load the required and conditional skills listed under Dependencies.
-3. Generate Domain layer components (Entities, repository interface, UseCases).
+3. Generate Domain layer components (Entities, repository interface, and optional UseCases if complex orchestration is needed).
 4. Generate Data layer components (Freezed DTOs, datasource file, mappers, repository implementations).
 5. Generate Presentation layer components (Freezed UI State, Riverpod controller, views/widgets).
 6. Update routing registration keys in `app_routes.dart` and register pages in `app_router.dart`.

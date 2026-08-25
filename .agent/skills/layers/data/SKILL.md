@@ -44,9 +44,9 @@ part 'user_dto.g.dart';
 @freezed
 abstract class UserDto with _$UserDto {
   const factory UserDto({
-    required String id,
-    required String email,
-    required String token,
+    String? id,
+    String? email,
+    String? token,
   }) = _UserDto;
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>
@@ -60,8 +60,8 @@ abstract class UserDto with _$UserDto {
 // ❌ FORBIDDEN: do not use @JsonSerializable directly
 @JsonSerializable()
 class UserDto {
-  final String id;
-  const UserDto({required this.id});
+  final String? id;
+  const UserDto({this.id});
   factory UserDto.fromJson(...) => _$UserDtoFromJson(json);
   Map<String, dynamic> toJson() => _$UserDtoToJson(this);
 }
@@ -73,7 +73,7 @@ class UserDto {
 - Always declare `part '<name>.freezed.dart';` AND `part '<name>.g.dart';` in that order.
 - Use `abstract class` + `with _$<Name>` syntax for the class.
 - Use `const factory` for the default constructor.
-- Optional fields must use Dart's nullable syntax: `String? fieldName`.
+- **Nullability constraint**: All fields must use Dart's nullable syntax: `String? fieldName`. Do NOT use non-nullable types or `required` fields in DTO constructors to avoid parsing failures on missing fields.
 - Use `@JsonKey(name: 'snake_case_field')` for fields with different API names.
 - Run `dart run build_runner build --delete-conflicting-outputs` after every DTO change.
 

@@ -18,14 +18,17 @@ All files under `lib/features/*/domain/`.
 
 ## Rules
 1. **Vanilla Domain Entities**:
-   - Entities must be pure vanilla Dart classes (e.g. `class User { final String id; ... }`).
+   - Entities must be pure vanilla Dart classes (e.g. `class User { final String? id; ... }`).
    - Must use `final` properties and a `const` constructor.
+   - **Nullability constraint**: All properties/fields of Domain Entities must be nullable (e.g., `final String? id;` instead of `final String id;`) to accommodate potential data omissions or partial updates from outer layers.
 2. **Repository Contracts**:
    - Must be declared as `abstract interface class [Feature]Repository`.
    - Must return `Future<Result<T>>` to ensure all data errors are handled as failures.
-3. **UseCases**:
-   - Single-responsibility classes implementing an `execute()` method.
-   - Must execute operations on the repository interface and return a `Future<Result<T>>`.
+3. **UseCases (OPTIONAL)**:
+   - UseCases are completely **optional** and should not be created for simple CRUD or API forwarding to avoid excessive boilerplate.
+   - Controllers should watch and call abstract Domain Repository interfaces directly for standard operations.
+   - Only introduce UseCases if the business logic requires complex client-side orchestration (e.g., executing calls to multiple repositories, local caching/offline sync queues, or logic shared across multiple controllers).
+   - If created, they should be single-responsibility classes implementing an `execute()` method and returning `Future<Result<T>>`.
 4. **Purity constraint**:
    - Do NOT import any serialization, database, state management, or network packages.
 5. **No Session Tokens in Entities**:

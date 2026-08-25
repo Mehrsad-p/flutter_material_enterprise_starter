@@ -65,9 +65,23 @@
     "fa": "فارسی",
     "en": "English"
   },
+  "success": {
+    "login": "Login successful! Welcome back.",
+    "signup": "Registration successful! Welcome.",
+    "logout": "Logged out successfully.",
+    "save": "Changes saved successfully.",
+    "delete": "Item deleted successfully.",
+    "update": "Updated successfully.",
+    "operation": "Operation completed successfully."
+  },
   "error": {
     "server": "A server error occurred",
     "connection": "An error occurred while communicating with the server",
-    "cache": "Error accessing local cache"
+    "cache": "Error accessing local cache",
+    "unauthorized": "Unauthorized access. Please log in again.",
+    "forbidden": "You do not have permission to perform this action.",
+    "not_found": "Requested resource was not found.",
+    "timeout": "Request timed out. Please try again.",
+    "unknown": "An unexpected error occurred."
   }
 }

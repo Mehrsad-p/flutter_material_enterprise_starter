@@ -11,7 +11,7 @@ lib/features/[feature_name]/
 ├── domain/
 │   ├── entities/          ← Pure Dart data classes 
 │   ├── repositories/      ← Abstract interfaces returning Result<T>
-│   └── usecases/          ← Single-responsibility classes returning Result<T>
+│   └── usecases/          ← [OPTIONAL] Only for complex orchestration, multi-step actions, offline sync, or shared logic across multiple controllers
 ├── data/
 │   ├── api/               ← Endpoint definitions using Dio/Retrofit
 │   ├── datasources/       ← Remote/Local DataSources
@@ -30,7 +30,7 @@ lib/features/[feature_name]/
 
 1. **Domain Layer (Core Business Rules):**
    - MUST be Pure Dart. Zero dependencies on `flutter/material.dart` or `flutter_riverpod`.
-   - Use a `Result<T>` wrapper for all Repository and UseCase return types.
+   - Use a `Result<T>` wrapper for all Repository and optional UseCase return types.
 
 2. **Data Layer:**
    - DTO models must include `fromJson` and `toJson` methods using `@JsonSerializable`.
@@ -39,7 +39,7 @@ lib/features/[feature_name]/
 
 3. **Presentation Layer & UI Entry Point (CRITICAL - KEEP UI BLANK):**
    - Define the **State** class using `@freezed` (Initial, Loading, Success, Error).
-   - The **Controller** must inherit from `AsyncNotifier` (or `Notifier`), interact directly with UseCases.
+   - The **Controller** must inherit from `AsyncNotifier` (or `Notifier`), interact directly with Repositories (or optional UseCases for complex logic).
    - **Main View (`views/[feature_name]_view.dart`):** Generate this as a `ConsumerWidget`.
    - **IMPORTANT:** Do NOT generate mock lists, custom cards, or hardcoded dummy UI elements in the `Success` state. Keep the View completely BLANK and minimal (e.g., a simple `Scaffold` with an `AppBar` and a `Center` containing an empty `SizedBox` or a basic placeholder text). I will design the UI components myself.
 
@@ -63,5 +63,5 @@ lib/features/[feature_name]/
 
 #### 📝 Feature Specifications:
 - **Feature Name:** [Insert feature name here]
-- **Required Operations (Use Cases):** [e.g., Fetch List, Delete Item]
+- **Required Operations (Repository / UseCase):** [e.g., Fetch List, Delete Item]
 - **Main Model Fields:** [e.g., id (string), title (string)]

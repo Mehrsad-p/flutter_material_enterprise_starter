@@ -3,6 +3,7 @@ import 'package:flutter_material_enterprise_starter/core/errors/result.dart';
 import 'package:flutter_material_enterprise_starter/core/feedback/feedback.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/presentation/controllers/auth/auth_session_controller.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/presentation/providers/auth_usecases_provider.dart';
+import 'package:flutter_material_enterprise_starter/generated/locale_keys.g.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'signup_controller.g.dart';
@@ -30,7 +31,7 @@ class SignupController extends _$SignupController {
             AppNotification(
               id: DateTime.now().microsecondsSinceEpoch.toString(),
               type: AppNotificationType.success,
-              message: 'auth/signup_success',
+              message: LocaleKeys.success_signup,
             ),
           );
     } else if (result is ErrorResult) {

@@ -41,7 +41,7 @@ All code generation and modifications by AI agents MUST strictly comply with the
 │   └── naming/                 # Exact naming conventions for files & classes
 ├── layers/
 │   ├── data/                   # DataSources, DTOs, Repositories implementations
-│   ├── domain/                 # Entities, Value Objects, UseCases, Failures
+│   ├── domain/                 # Entities, Value Objects, optional UseCases, Failures
 │   └── presentation/           # Pages, Widgets, Notifiers, ViewStates
 ├── technologies/
 │   ├── riverpod/               # State management standards & lifecycle
@@ -145,7 +145,7 @@ lib/
         ├── domain/
         │   ├── entities/
         │   ├── repositories/
-        │   └── usecases/
+        │   └── usecases/          # [OPTIONAL] Only for complex orchestration, multi-step actions, offline sync, or shared logic across multiple controllers
         └── presentation/
             ├── controllers/
             │   └── <feature_subfolder>/
@@ -172,7 +172,7 @@ lib/
    - Catches all raw Exception instances and maps them to Domain Failure objects inside Result<T>.
 
 3. Presentation Layer (features/<feature>/presentation/):
-   - Depends ONLY on Domain entities and UseCases (via Riverpod Notifiers).
+   - Depends on Domain entities, Repositories, and optional UseCases (via Riverpod Notifiers).
    - NEVER communicates directly with DataSources, Dio, or database tables.
    - Consumes state via AsyncValue<T> or custom Freezed state unions.
 
@@ -183,10 +183,10 @@ lib/
 - Use `Notifier` / `AsyncNotifier` (or code-generated `@riverpod` providers).
 - State must be immutable, modeled via Freezed or `AsyncValue<T>`.
 - Never mutate state directly; always emit a new state using `state = AsyncData(...)` or `state = state.copyWith(...)`.
-- Keep Controllers lean: Delegate business logic to UseCases or Domain Repositories.
+- Keep Controllers lean: Delegate business logic to Domain Repositories directly. Introduce UseCases only when the logic involves multiple repositories, complex client-side calculations, or shared multi-controller orchestration to avoid boilerplate.
 
 Data Flow:
-View (UI) ──> Controller (Notifier) ──> UseCase / Repository ──> DataSource ──> API / DB
+View (UI) ──> Controller (Notifier) ──> UseCase (Optional) / Repository ──> DataSource ──> API / DB
 
 ---
 
@@ -244,8 +244,8 @@ View (UI) ──> Controller (Notifier) ──> UseCase / Repository ──> Dat
 When creating or modifying files:
 1. Provide the exact relative file path (e.g., lib/features/auth/domain/entities/user_entity.dart).
 2. Provide complete, production-ready code (no omitted methods, // TODO: implement later, or placeholder comments).
-3. Adhere to naming conventions:
-   - DTOs: <Name>Dto (lib/.../data/dtos/<name>_dto.dart)
-   - Entities: <Name>Entity (lib/.../domain/entities/<name>_entity.dart)
+3. Adhere to naming conventions and constraints:
+   - DTOs: <Name>Dto (lib/.../data/dtos/<name>_dto.dart) - **All properties/fields must be nullable** (e.g., `String?`).
+   - Entities: <Name>Entity (lib/.../domain/entities/<name>_entity.dart) - **All properties/fields must be nullable** (e.g., `String?`).
    - Repositories: <Name>Repository (Domain interface) & <Name>RepositoryImpl (Data implementation)
    - Notifiers: <Name>Notifier & <Name>State (lib/.../presentation/controllers/)

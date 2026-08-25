@@ -18,10 +18,10 @@ Test files under `test/`.
 ## Rules
 1. **Mocking**:
    - Use mock classes or fake implementations for network and database client interfaces.
-2. **UseCase Tests**:
-   - Usecases should be tested for both success and failure outcomes (e.g. mock repository returning `Result.success` and `Result.error`).
+2. **UseCase Tests (Optional)**:
+   - If UseCases are implemented, they should be tested for both success and failure outcomes (e.g., mock repository returning `Result.success` and `Result.error`).
 3. **Controller Tests**:
-   - Test initial states, transitions to loading, and success/error resolutions using Riverpod `ProviderContainer`.
+   - Test initial states, transitions to loading, and success/error resolutions using Riverpod `ProviderContainer`. Mock repository interfaces or optional UseCases as needed.
 
 ## Forbidden
 - **Unit Tests** ❌ MUST NOT hit real API endpoints or read/write to local device databases.

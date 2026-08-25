@@ -3,6 +3,7 @@ import 'package:flutter_material_enterprise_starter/core/errors/result.dart';
 import 'package:flutter_material_enterprise_starter/core/feedback/feedback.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/presentation/controllers/auth/auth_session_controller.dart';
 import 'package:flutter_material_enterprise_starter/features/auth/presentation/providers/auth_usecases_provider.dart';
+import 'package:flutter_material_enterprise_starter/generated/locale_keys.g.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'login_controller.g.dart';
@@ -30,7 +31,7 @@ class LoginController extends _$LoginController {
             AppNotification(
               id: DateTime.now().microsecondsSinceEpoch.toString(),
               type: AppNotificationType.success,
-              message: 'auth/login_success',
+              message: LocaleKeys.success_login,
             ),
           );
     } else if (result is ErrorResult) {
