@@ -78,6 +78,7 @@ flutter gen-l10n
 4. Pure AsyncNotifier Lifecycle: All async bootstrap controllers extend `AsyncNotifier<T>` with an asynchronous `build()` method (`Future<T> build() async`). `Future.microtask` in synchronous `build()` is strictly forbidden.
 5. Fine-Grained Multi-Controller & Co-located Structure: Dedicated 1:1 controllers and their corresponding Freezed states MUST be co-located inside dedicated sub-folders under `presentation/controllers/<sub_domain>/`. To avoid visual clutter, all state files and their generated files (`.freezed.dart`, `.g.dart`) MUST live in a nested `state/` subdirectory inside the specific controller's folder (e.g., `login_controller.dart` next to `state/login_state.dart`). Standalone global `states/` directories are forbidden. Computed provider aggregation is used to combine state slices (`ref.watch(provider.select(...))`).
 6. Zero Cross-Layer Leakage: Domain layer contains zero third-party I/O imports or database models. Controllers contain zero `BuildContext` or navigation calls.
+7. Centralized Generic Pagination Infrastructure: Centralized pagination data structures, DTOs, and UI widgets reside under `lib/core/pagination/`. Features must consume this shared infrastructure instead of redefining custom paging logic.
 
 
 ================================================================================
@@ -134,6 +135,13 @@ lib/
 │   │   ├── exceptions.dart
 │   │   └── failure.dart
 │   ├── network/
+│   ├── pagination/
+│   │   ├── data/
+│   │   │   └── dtos/
+│   │   ├── domain/
+│   │   │   └── entities/
+│   │   └── presentation/
+│   │       └── widgets/
 │   ├── storage/
 │   └── utils/
 └── features/
@@ -226,6 +234,10 @@ View (UI) ──> Controller (Notifier) ──> UseCase (Optional) / Repository 
   - ServerFailure(customMessage, code, details)
   - CacheFailure([customMessage])
   - NetworkFailure / UnauthorizedFailure (Data-driven error codes)
+- Core Pagination Standardization: All paginated API endpoints, domain repositories, and list UIs MUST consume the centralized infrastructure in `lib/core/pagination/`. Custom pagination classes or layouts are prohibited.
+  - Domain Layer: Repositories return `Future<Result<PaginatedData<Entity>>>` using the generic `PaginatedData` entity.
+  - Data Layer: Network DTO responses must be mapped from `PaginatedResponseDto<Dto>` using `.toEntity((dto) => dto.toEntity())`.
+  - Presentation Layer: UI scrollable lists must implement `PaginatedListView<T>` to manage fetching indicators and trigger load-more operations reactively.
 
 ---
 

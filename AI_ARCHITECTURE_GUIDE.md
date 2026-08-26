@@ -46,8 +46,15 @@ lib/
 │   │   └── tokens/
 │   ├── errors/
 │   │   ├── exceptions.dart
-│   │   └── failures.dart
+│   │   └── failure.dart
 │   ├── network/
+│   ├── pagination/
+│   │   ├── data/
+│   │   │   └── dtos/
+│   │   ├── domain/
+│   │   │   └── entities/
+│   │   └── presentation/
+│   │       └── widgets/
 │   ├── storage/
 │   └── utils/
 └── features/
@@ -140,6 +147,10 @@ View (UI) ──> Controller (Notifier) ──> UseCase (Optional) / Repository 
   - ServerFailure(customMessage, code, details)
   - CacheFailure([customMessage])
   - NetworkFailure / UnauthorizedFailure (Data-driven error codes)
+- Core Pagination Standardization: All paginated API endpoints, domain repositories, and list UIs MUST consume the centralized infrastructure in `lib/core/pagination/`. Custom pagination classes or layouts are prohibited.
+  - Domain Layer: Repositories return `Future<Result<PaginatedData<Entity>>>` using the generic `PaginatedData` entity.
+  - Data Layer: Network DTO responses must be mapped from `PaginatedResponseDto<Dto>` using `.toEntity((dto) => dto.toEntity())`.
+  - Presentation Layer: UI scrollable lists must implement `PaginatedListView<T>` to manage fetching indicators and trigger load-more operations reactively.
 
 ---
 
